@@ -54,11 +54,7 @@ sum(StudentHeights)/length(StudentHeights)
 (2)  Calculate the median of 'StudentHeights' as if the function 'median()'
      did not exist but all other functions did exist.
 ------------------------------------------
-if (length(StudentHeights) %% 2 == 0) {
-  (sort(StudentHeights)[length(StudentHeights) / 2] + sort(StudentHeights)[length(StudentHeights) / 2 + 1]) / 2
-} else {
-  sort(StudentHeights)[length(StudentHeights) / 2 + 1]
-}
+quantile(StudentHeights, probs=0.5)
 ------------------------------------------
 
 
@@ -69,18 +65,18 @@ if (length(StudentHeights) %% 2 == 0) {
 
 (3a) their quintiles:
 ------------------------------------------
-c(quantile(StudentHeights, probs=seq(0,1,by=.20)))
+quantile(StudentHeights, probs=seq(0,1,by=.20))
 ------------------------------------------
-   0%   20%   40%   60%   80%  100% 
-59.00 65.20 66.68 69.00 74.00 76.00 
+   0%   20%   40%   60%   80%  100%
+59.00 65.20 66.68 69.00 74.00 76.00
 ------------------------------------------
 
 (3b) their quartiles:
 ------------------------------------------
-c(quantile(StudentHeights, probs=seq(0,1,by=.25)))
+quantile(StudentHeights, probs=seq(0,1,by=.25))
 ------------------------------------------
-    0%    25%    50%    75%   100% 
-59.000 65.875 68.000 72.500 76.000 
+    0%    25%    50%    75%   100%
+59.000 65.875 68.000 72.500 76.000
 ------------------------------------------
 
 
@@ -93,8 +89,8 @@ c(quantile(StudentHeights, probs=seq(0,1,by=.25)))
 ------------------------------------------
 c(mean=mean(StudentHeights), med=median(StudentHeights), sdev=sd(StudentHeights))
 ------------------------------------------
-     mean       med      sdev 
-68.280000 68.000000  4.848288 
+     mean       med      sdev
+68.280000 68.000000  4.848288
 ------------------------------------------
 
 
@@ -106,8 +102,8 @@ c(mean=mean(StudentHeights), med=median(StudentHeights), sdev=sd(StudentHeights)
 ------------------------------------------
 R knows that the line is incomplete since
 we included a comma. The comma indicates
-to R that something else must follow, 
-thus R is able to continue reading in 
+to R that something else must follow,
+thus R is able to continue reading in
 the line.
 ------------------------------------------
 
@@ -123,7 +119,7 @@ the line.
      Think of it as forming 5 integer pyramids.
      Make sure that NO TWO ADJACENT VALUES are the same.
 ------------------------------------------
-c(rep(c((seq(0,10,1)),seq(9,1, -1)), 5),0)
+c(rep(c(0:10, 9:1), 5),0)
 ------------------------------------------
  [1]  0  1  2  3  4  5  6  7  8  9 10  9  8  7  6  5  4  3  2  1  0  1  2  3  4  5  6  7  8  9 10  9  8  7  6  5  4  3  2  1  0  1  2  3  4
 [46]  5  6  7  8  9 10  9  8  7  6  5  4  3  2  1  0  1  2  3  4  5  6  7  8  9 10  9  8  7  6  5  4  3  2  1  0  1  2  3  4  5  6  7  8  9
@@ -136,7 +132,7 @@ c(rep(c((seq(0,10,1)),seq(9,1, -1)), 5),0)
      horizontal coordinates.
      Plot first as points, then draw lines on top.
 ------------------------------------------
-y <- c(rep(c((seq(0,10,1)),seq(9,1, -1)), 5),0)
+y <- c(rep(c(0:10, 9:1), 5),0)
 x <- 0:(length(y) - 1)
 plot(x,y)
 lines(x,y, type="l")
@@ -150,16 +146,16 @@ lines(x,y, type="l")
 
 (7a) Make a ladder from 0 to 2*pi in steps of 0.01.
 ------------------------------------------
-a <- seq(0, 2*pi, by = 0.01) 
+a <- seq(0, 2*pi, by = 0.01)
 ------------------------------------------
 
 (7b) Figure out the length of this ladder by sheer thinking
      and explain your reasoning.
 ------------------------------------------
 Answer: 629
-Reasoning: 2*pi roughly equals 6.28, so 
-there would be 628 steps in total. This, 
-plus the initial value of 0 leads to 629 
+Reasoning: 2*pi roughly equals 6.28, so
+there would be 628 steps in total. This,
+plus the initial value of 0 leads to 629
 values in the ladder.
 ------------------------------------------
 
@@ -190,8 +186,8 @@ plot(cos(a), sin(a), type="l")
 ------------------------------------------
 Figure: Circle
 Reasoning: 2*pi is the circumference of the
-unit circle in radians. Plotting cos on the
-x-axis and sin on the y-axis gives us the 
+circle in radians. Plotting cos on the
+x-axis and sin on the y-axis gives us the
 unit circle.
 ------------------------------------------
 
@@ -247,7 +243,7 @@ plot(cos(a)*r, sin(a)*r, type="l")
 ------------------------------------------
 The radius gradually increases exponentially,
 as r = 1.1^a. Since plotting cos() and sin()
-gives us a unit circle of radius 1, 
+gives us a unit circle of radius 1,
 multiplying cos() and sin() by a gradually
 increasing exponential should give us
 a unit circle with a gradually increasing
