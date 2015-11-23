@@ -1,11 +1,10 @@
 ##================================================================
+#
+#
+#  ---------- INTRODUCTION TO BASICS OF R  ------------
 
 
-## ------------ INTRODUCTION TO BASICS OF R  ------------
-
-
-## WHY R?
-
+##                        WHY R?
 
 ## HISTORY OF R:  C --> S --> R
 
@@ -931,7 +930,7 @@ log10(1000);  log10(5000);  log10(10000)
                      "Kevin Anderson? He had never reached that round of a major.",
                      "Anderson, a 29-year-old South African who played in college at Illinois, has been competing in major tournaments since 2008, but seven trips to the fourth round of a major ended in a loss.",
                      "Aside from the 2013 French Open, which he did not enter, Murray had reached every major quarterfinal since 2011.",
-                     "But that pattern came to a stunning reversal Monday when Anderson upended the third-seeded Murray, 7-6 (5), 6-3, 6-7 (2), 7-6 (0), in Louis Armstrong Stadium in the biggest upset of the men¡¯s draw in this year¡¯s United States Open." )
+                     "But that pattern came to a stunning reversal Monday when Anderson upended the third-seeded Murray, 7-6 (5), 6-3, 6-7 (2), 7-6 (0), in Louis Armstrong Stadium in the biggest upset of the men??s draw in this year??s United States Open." )
      NYT.tennis
      length(NYT.tennis)
 ## Because the sentences are long, they reach beyond our line length,
@@ -1339,30 +1338,30 @@ log10(1000);  log10(5000);  log10(10000)
 ##   |    (5 - 3) == (3 - 1)                               |
 ##   |    REASON: UNPREDICTABLE ROUNDING OF DECIMALS       |
 ##    -----------------------------------------------------
-## Let's try the boxed examples:
+##   Let's try the boxed examples:
        2 = 2                        # Just a silly mistake.
        2 == 2                       # TRUE
        (0.5 - 0.3) == (0.3 - 0.1)   # FALSE on most machines!! BIG SURPRISE!
        (5 - 3) == (3 - 1)           # TRUE
        3.14159 == pi                # FALSE, correctly
-## To solve comparison problems for near-identity of decimal numbers,
-## use a tiny threshold for comparison:
+##   To solve comparison problems for near-identity of decimal numbers,
+##   use a tiny threshold for comparison:
        eps <- 1E-10       # 'eps' for 'epsilon', used in math for small numbers
        abs((0.5 - 0.3) - (0.3 - 0.1)) < eps    # TRUE
-## The function 'abs()' returns the absolute value of its argument,
-## element by element:
+##   The function 'abs()' returns the absolute value of its argument,
+##   element by element:
        abs((-5):(+5))
-## One more example:
+##   One more example:
        abs(3.14159 - pi) < eps
-## We'd have to raise 'eps' to 1E-5 to obtain TRUE in this case.
-## [A problem with thresholds is that they are unit-dependent.
-##  For example, if height of humans were expressed in miles,
-##  one would obtain very small numbers according to
-##     (height in miles) = (height in inches) / 63360
-##  and suddenly a threshold of 'eps <- 1E-10' is no longer
-##  very small.  It would have to be changed to 'eps <- 1E-10/63360'
-##  to be equivalent to 'eps <- 1E-10' in inches.
-##  ]
+##   We'd have to raise 'eps' to 1E-5 to obtain TRUE in this case.
+##   [A problem with thresholds is that they are unit-dependent.
+##    For example, if height of humans were expressed in miles,
+##    one would obtain very small numbers according to
+##       (height in miles) = (height in inches) / 63360
+##    and suddenly a threshold of 'eps <- 1E-10' is no longer
+##    very small.  It would have to be changed to 'eps <- 1E-10/63360'
+##    to be equivalent to 'eps <- 1E-10' in inches.
+##    ]
 
 
 ## * COMPARISON OPERATIONS ON CHARACTER DATA BY LEXICOGRAPHIC ORDER:
@@ -1419,15 +1418,15 @@ log10(1000);  log10(5000);  log10(10000)
 ##
 ## - How do upper and lower case letters compare?  Try this:
        c("a"<"A", "A"<"b", "b"<"B", "B"<"c",     "y"<"Y", "Y"<"z", "z"<"Z")
-## For the instructor, these are all TRUE.
-## For you, this might not be the case.
-## But on other computers/operating systems/R settings
-## the following might all be TRUE:
+##   For the instructor, these are all TRUE.
+##   For you, this might not be the case.
+##   But on other computers/operating systems/R settings
+##   the following might all be TRUE:
        c("A"<"Z", "Z"<"a", "a"<"z")
-## Here is where a big mess starts:
-## There exist different string sorting conventions!
-## We won't go into much detail of why and how this happens.
-## Instead here are a few rules to guide you:
+##   Here is where a big mess starts:
+##   There exist different string sorting conventions!
+##   We won't go into much detail of why and how this happens.
+##   Instead here are a few rules to guide you:
 ##
 ##    ---------------------------------------------------------
 ##   |  PRINCIPLES FOR STRING SORTING:                         |
@@ -1534,6 +1533,10 @@ log10(1000);  log10(5000);  log10(10000)
          unique(rep(rep(2:0, times=100), each=100))
          unique(c("l","l","l","e","l","l","h","l","h","m","e","m","a","a","l","h","n"))
          unique(StudentGenders)
+##     'unique()' is useful for counting how many distinct elements
+##     there are in a vector:
+         vec <- c("l","l","l","e","l","l","h","l","h","m","e","m","a","a","l","h","n")
+         length(unique(vec))  # 6
 
 
 ## * LOGICAL OPERATIONS: 'Boolean algebra', 'propositional logic'
@@ -1977,6 +1980,23 @@ log10(1000);  log10(5000);  log10(10000)
        names(Salary)[Salary >= 50000]
 ##   Recall that 'names()' extracts the character vector of names
 ##   from a vector with named elements.
+##
+##   IMPORTANT FUNCTION: 'which()'
+##   This function returns a vector of positive integers that
+##   show the positions of the value TRUE in a logical vector.
+       which(c(T,F,T))    # [1] 1 3
+       which(c(F,F,F,F))  # integer(0)  (empty enteger vector)
+       which(c(T,T,T,T))  # [1] 1 2 3 4
+##   The following returns the positions of "male" in 'Salary.gender':
+       which(Salary.gender == "male")
+##   The reason for mentioning 'which()' here is that it makes
+##   selection with logical values and positive integer values
+##   equivalent:
+       Salary[Salary.gender == "male"]          # Logical selection
+       Salary[which(Salary.gender == "male")]   # Positive integer selection
+##   Also note that the following do the same: Counting males
+       sum(Salary.gender == "male")
+       length(which(Salary.gender == "male"))
 
 
 ## - SELECTION WITH NAMES:
@@ -2136,46 +2156,69 @@ log10(1000);  log10(5000);  log10(10000)
 ## * NAMING OF VECTORS:
 ##
 ## - So far we have introduced named vectors at the collecting stage
-## with 'c()':
+##   with 'c()':
         x <- c(a=10, b=20, c=30)
         x
-## By the way, we can also quote the element names, which is
-## better programming style and allows us to use funny characters
-## in the names:
+##   By the way, we can also quote the element names, which is
+##   better programming style and allows us to use funny characters
+##   in the names:
         x <- c("a"=10, "b"=20, "c"=30)
         x
-## When printing 'x', the names are shown without quotes.
+##   When printing 'x', the names are shown without quotes.
 ##
 ## - New Problem:
 ##   How can we give elements names if the names are stored in another vector?
 ##   We are not going to write out 1,000,000 names in a 'c()' expression!
 ##
-## Simple example
+##   Simple example
         x <- c(10,20,30)                  # Values
         x.names <- c("a","b","c")         # Names of values
-## Here is how we can make 'x.names' the names of the elements of 'x':
+##   Here is how we can make 'x.names' the names of the elements of 'x':
         names(x) <- x.names
         x
-## And ask for the names:
+##   And ask for the names:
         names(x)
-## It all works.
+##   It all works.
 ##
 ## - Some illustrative games with names:
         my.letters <- letters
         names(my.letters) <- LETTERS
         my.letters
-## Now we can look up the lower case version of any upper case letter:
+##   Now we can look up the lower case version of any upper case letter:
         my.letters["A"]
-## Less trivial is this:
+##   Less trivial is this:
         names(my.letters) <- rev(letters)   # 'rev()' reverses the order.
         my.letters
-## Now we can look up what the "mirror image letter" is.
-## For example, "c" is third from the beginning;
-## what is the third from the end?
+##   Now we can look up what the "mirror image letter" is.
+##   For example, "c" is third from the beginning;
+##   what is the third from the end?
         my.letters["c"]
         my.letters["x"]
         my.letters["k"]
         my.letters["p"]
+##
+## - 'table()': The most important function that creates vectors with names
+##   The function counts how often each element occurs in a vector.
+##   It returns a vector with names, which are the unique distinct elements
+##   in the argument vector:
+        table(c("a","a","b","c","a","c"))
+##         a b c     << names (strings without quotes)
+##         3 1 2     << counts, frequencies
+        tab <- table(c("a","a","b","c","a","c"))
+        tab["a"]
+        tab[c("a","c")]
+##   'table()' can be applied to vactors of any type:
+        table(c(1,2,1,2,4,1,3))
+##        1 2 3 4    << names (strings without quotes
+##        3 2 1 1    << counts, frequencies
+        table(c(T,T,T,F,T,T,F,F))
+##        FALSE  TRUE   << names (strings without quotes)
+##            3     5   << counts, frequencies
+##   The length of a table is the number of unique elemenets:
+        vec <- c("a","a","b","c","a","c")
+        tab <- table(vec)
+        length(tab)          # 3
+        length(unique(vec))  # 3, same
 
 
 ## * NAMED ELEMENTS AS A WAY TO TRANSLATE STRINGS:
@@ -2450,7 +2493,8 @@ log10(1000);  log10(5000);  log10(10000)
 ## - IF YOU HAVE INPUT PROBLEMS:
 ##   You find solutions to many input problems at this URL:
 ##       https://cran.r-project.org/doc/manuals/R-data.html#Variations-on-read_002etable
-##   This is on the CRAN website:  'CRAN' == Comprehensive R Archive Network
+##   This is on the official R website, called 'CRAN':
+##       'CRAN' == Comprehensive R Archive Network
 ##   Problems can arise from any of the folowing sources:
 ##   . encoding in different character sets,
 ##   . inconsistent header lines,
@@ -3365,6 +3409,35 @@ log10(1000);  log10(5000);  log10(10000)
 ##       of 'my.classes'!
 
 
+## * IMPORTANT FUNCTION: 'unlist()'
+##
+         unlist(Salary.df)
+         unlist(Potpourri)
+##   This function collects all elements of atomic data type in a single vector,
+##   coercing them if necessary.
+         unlist(list(1:3, list(1,list("a","b")), 11:13, list(), "Z"))
+##   The empty list 'list()' was correctly handled: it has no elements.
+
+
+## * DIMENSION NAMES OF MATRICES AND ARRAYS ARE PACKAGED IN LISTS:
+         dimnames(phillyTemp.mat)
+##   'dim()' can be a plain vector because it contains just one integer per dimension:
+         dim(phillyTemp.mat)
+##   'dimnames()' can be assigned:
+         mat <- cbind(1:3, 11:13)
+         dimnames(mat)               # NULL
+         dimnames(mat) <- list(letters[1:nrow(mat)], LETTERS[1:ncol(mat)] )
+         dimnames(mat)
+         mat
+         dimnames(mat) <- list("RowDim"=letters[1:nrow(mat)], "ColDim"=LETTERS[1:ncol(mat)] )
+         dimnames(mat)
+         mat
+##   Compare with 'rownames()' and 'colnames()':
+##   They return plain vectors, hence aren't lists.
+##   Their disadvantage is that they don't generalize to higher-dimensional arrays.
+##   One would need a word like 'row', 'col' for each dimension.
+##   ==> For arrays, 'dimnames()' needs to be a list.
+
 
 #================================================================
 ##
@@ -3489,12 +3562,13 @@ log10(1000);  log10(5000);  log10(10000)
                   main=yr) }                             # title = year
 
 
-## * EXAMPLE PROBLEM 5: List all the functions in all the namespaces.
+## * EXAMPLE PROBLEM 5: List all the objects in all the namespaces.
          for(ns in search()) { print(ls(ns)) }
-##     Better:
+##     This doesn't print the package names.  Fix it:
          for(ns in search()) {
              print(paste("-----------------",ns,"---------------"))
              print(ls(ns)) }
+##     Search backwards for '[1]' in the Console to find the beginnings
 
 
 ## * EXAMPLES OF WHERE NOT TO USE LOOPS:
@@ -3895,7 +3969,7 @@ log10(1000);  log10(5000);  log10(10000)
 ##
 ##   - You find a function name hard to remember or too long, so you
 ##     want to make it more memorable for yourself or simply shorter.
-
+##
 ##   - You find yourself writing 'for()' loops because there is no
 ##     function that could be given to 'sapply()' as its second
 ##     argument.
@@ -3935,9 +4009,9 @@ log10(1000);  log10(5000);  log10(10000)
          smry3 <- function(x, na.rm=T, dig=3) {                       # Arguments
              m <- mean(x, na.rm=na.rm)                                # Body
              s <- sd(x, na.rm=na.rm)                                  #  "
-             se <- s / sqrt(sum(!is.na(x)))                           #  "
+             se <- s / sqrt(sum(!is.na(x)))                           #  "  ; proper divisor!
              result <- round(c("mean"=m, "sdev"=s, "stderr"=se), dig) #  "
-             return(result)                                           #  "  ; result
+             result                                                   #  "  ; result returned
          }
          smry3(StudentHeights)
 ##   This version illustrates the use of default values for arguments:
@@ -3954,38 +4028,38 @@ log10(1000);  log10(5000);  log10(10000)
 ##
 ## - Generalities: Structure of a function
 ##
-##    ------------------------------------------------
-##   |                                                 |
-##   |  funName  <-  function(...arguments...) {       |
-##   |             ...function body...                 |
-##   |             }                                   |
-##   |                                                 |
-##   |  - Arguments can be given default values.       |
-##   |    In a function call these arguments need to   |
-##   |    be used only if another value than the       |
-##   |    default is needed.                           |
-##   |                                                 |
-##   |  - Arguments without default must be used in    |
-##   |    a function call.                             |
-##   |                                                 |
-##   |  - Inside the body a temporary namespace is set |
-##   |    up during the execution of the function.     |
-##   |    It contains:                                 |
-##   |    (1) the argument symbols assigned to COPIES  |
-##   |        of the data structures shown in the      |
-##   |        function call, and                       |
-##   |    (2) symbols assigned during the execution of |
-##   |        the body of the function.                |
-##   |                                                 |
-##   |  - As a matter of good programming style,       |
-##   |    DO NOT USE symbols that are outside in the   |
-##   |    global environment.                          |
-##   |                                                 |
-##   |  - The result of the last expression in         |
-##   |    the body is returned by the function,        |
-##   |    just as in any '{...}' expression.           |
-##   |                                                 |
-##    -------------------------------------------------
+##    -------------------------------------------------------------------------
+##   |                                                                         |
+##   |      smry3 <- function(x, na.rm=T, dig=3) {             # Arguments     |
+##   |          m <- mean(x, na.rm=na.rm)                      # Body          |
+##   |          s <- sd(x, na.rm=na.rm)                        #  "            |
+##   |          se <- s / sqrt(sum(!is.na(x)))                 #  "            |
+##   |          round(c("mean"=m, "sdev"=s, "stderr"=se), dig) #  "  ; result  |
+##   |      }                                                                  |
+##   |                                                                         |
+##   |  - Arguments can be given default values, as in 'na.rm=T' and 'dig=3'.  |
+##   |    In a function call these arguments need to be used only if another   |
+##   |    value than the default is needed.                                    |
+##   |                                                                         |
+##   |  - Arguments without default values must be given in a function call.   |
+##   |                                                                         |
+##   |  - Inside the body a temporary namespace is set up during the           |
+##   |    execution of the function.  It contains:                             |
+##   |    (1) the argument symbols assigned to COPIES                          |
+##   |        of the data structures shown in the                              |
+##   |        function call, and                                               |
+##   |    (2) symbols assigned during the execution of                         |
+##   |        the body of the function.                                        |
+##   |                                                                         |
+##   |  - As a matter of good programming style, DO NOT USE symbols            |
+##   |    that are outside in the global environment                           |
+##   |    EXCEPTION: Functions that are contained in the standard              |
+##   |               namespaces such as "package:base".                        |
+##   |                                                                         |
+##   |  - The result of a function is the last expression in the body          |
+##   |    just as in any '{...}' expression.                                   |
+##   |                                                                         |
+##    -------------------------------------------------------------------------
 ##
 ##   To be clear about the penultimate point: All symbols are
 ##   accessible to the function body; if a symbol is not found
@@ -4005,6 +4079,17 @@ log10(1000);  log10(5000);  log10(10000)
 ## - One can check whether a symbol is pointing to a function as follows:
          is.function(smry2)
          class(smry2)
+##
+## - Bodies of functions do NOT modify objects outside the function!
+         x <- 1:3
+         fun <- function(x) { x[2] <- 100 }   # Does nothing!
+         fun(x)
+##    To affect the outside world, the result of a function needs
+##    to be assigned:
+         x <- 1:3
+         fun <- function(x) { x[2] <- 100; x }   # Returns 'x'
+         fun(x)
+         x <- fun(x)                             # This modifies 'x'.
 ##
 ## - Functions are objects just like data structures.
 ##   One can collect them in lists:
@@ -4028,20 +4113,23 @@ log10(1000);  log10(5000);  log10(10000)
 ##   |  PRINCIPLE OF SUBSITUTION OF IDENTICALS:      |
 ##   |                                               |
 ##   |  If two expressions return the same results,  |
-##   |  they can substitute for each other.          |
+##   |  they can substitute for each other in code.  |
 ##   |                                               |
 ##    -----------------------------------------------
 ##
-##   'smry2' and '(function(x) { c(mean=mean(x), sdev=sd(x), stderr=sd(x)/sqrt(length(x)) ) })'
-##   evaluate to the same function object, hence where one can appear, so can the other.
+         smry2
+##   and
+        (function(x) { c(mean=mean(x), sdev=sd(x), stderr=sd(x)/sqrt(length(x)) ) })
+##   evaluate to the same function object, hence where one can
+##   appears, so can the other.
 ##
 ## - In 'sapply()', 'lapply()' and 'apply()', it is common
 ##   to improvise little 'throw-away functions'.
 ##   Example:
-         sapply(search(), function(ns) length(ls(ns)) )
+         sapply(search(), function(ns) { length(ls(ns)) } )
 ##   This expression lists the number of symbols in all namespaces.
 ##   The next one sums them up:
-         sum(sapply(search(), function(ns) length(ls(ns)) ))
+         sum(sapply(search(), function(ns) { length(ls(ns)) } ))
 ##       [1] 2555
 ##   So the instructor has 2555 symbols defined in his R process.
 ##   Most of them are part of the R languge.  Defined by him are
@@ -4049,34 +4137,113 @@ log10(1000);  log10(5000);  log10(10000)
          length(ls(search()[1]))
 ##       [1] 152
 ##   [Time for cleanup...]
+
+
+## * EXAMINING THE BODY OF R FUNCTIONS:
+##
+##   When we print a function, R shows its arguments and its body.
+##   This can be useful for examining existing functions that
+##   come with R.
+##   Examples:
+##
+## - Listing symbols that have been assigned objects:
+         ls
+##     The code you see is really about unwrapping arguments
+##     and wrapping results.
+##     The actual work is done in C code where it says
+##       .Internal(ls(envir, all.names, sorted))
+##     We see that 'ls()' has one more argument: 'pos'.  What does it do?
+         ls(pos=1)
+##     Apparently the same as:
+         ls(search()[1])
+##
+## - Length of objects:
+         length
+##     Here we learn nothing because the function instantly dispatches to
+##     a C function 'length'.
+##
+## - Matrix/array looping:
+         apply
+##     Here we could learn a lot.  For one thing, the code is not
+##     limited to matrices but seems to work for arbitrary integer
+##     'dim()' vectors.
+##
+## - Our own function:
+        smry3
+##   Nice, it even includes the comments!
+##
+## - Try your own ...
+
+
+## * ARGUMENTS '...':
+##
+## - Task: Write a function that works like 'unique()' and 'sort()',
+##         except it does both.
+         su <- function(...) { sort(unique(...)) }
+##   This function will have exactly the arguments of 'unique()':
+         su(c(1,2,1,2,1,2,3,1))
+
+## - Task: Write a function that does the same as 'plot(x, y)' but
+##         extends the ranges by 10% on both sides.
+##
+##   Actually, the function we have in mind is 'plot.default()'.
+##   We will learn later about 'generic functions'.  They are
+##   really dispatchers to 'methods' that do the work depending
+##   on the type ('class') of the arguments.
+##   Let's look at 'plot.default()':
+         plot.default
+##   Nice!  It has lots of code we could analyze.
+##   For us of importance is the sequence of arguments:
+##      function (x, y = NULL, type = "p", xlim = NULL, ylim = NULL,
+##          log = "", main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+##          ann = par("ann"), axes = TRUE, frame.plot = axes, panel.first = NULL,
+##          panel.last = NULL, asp = NA, ...)
+##   First let's write a function to compute 10% extended range:
+         range.ex <- function(x, fac=1.2) { xrg <- range(x);  m <- mean(xrg);  (xrg - m)*fac + m }
+##   Example:
+         range.ex(0:10)
+##   Next let's write a function that is like 'plot.default()',
+##   but has this new default:
+         plot.ex <- function(x, y, type="p", xlim = range.ex(x), ylim = range.ex(y), pch=16, ...) {
+             plot.default(x, y, type=type, xlim=xlim, ylim=ylim, pch=pch, ...) }
+##   Compare:
+        plot(1:10, 1:10)
+        plot.ex(1:10, 1:10)
+        plot.ex(1:10, 1:10, type="o")                 # '...' is 'pch=16, type="o"'
+        plot.ex(1:10, 1:10, type="o", xlim=c(-5,15))  # '...' is 3 last args
+##   Comments:
+##   . 'range.ex()' can be used to add more space around a plot:
+         x <- 1:1000;  y <- sin(x)
+##     default: insufficient space around plotted object
+         plot(x, y, cex=.5)
+         plot.ex(x, y, cex=.5)
+##     stretch by 10%:
+         xlim <- range.ex(x);  ylim <- range.ex(y)
+         plot(x, y, xlim=xlim, ylim=ylim, pch=16, cex=.5)
+##     stretch ylim by a factor of 4:
+         xlim <- range.ex(x,1);  ylim <- range.ex(y,4)
+         plot(x, y, xlim=xlim, ylim=ylim, pch=16, cex=.5)
+##     stretch xlim by a factor of 4:
+         xlim <- range.ex(x,4);  ylim <- range.ex(y,1)
+         plot(x, y, xlim=xlim, ylim=ylim, pch=16, cex=.5)
+##     Interesting patterns, aren't they?
+##
+##      ----------------------------------------------------------
+##     |  Take-home message for plotting: Axis scales do matter!  |
+##      ----------------------------------------------------------
 ##
 ## - Examples of functions the instructor uses all the time:
          len <- length     # laziness
          si <- save.image  #   "
-         su <- function(...) sort(unique(...))  # sort unique values -- very useful!
-         rg.ex <- function(x, fac=1.1) { xrg <- range(x);  m <- mean(xrg);  (xrg - m)*fac + m }
+##     The following two we know already:
+         su <- function(...) sort(unique(...))
+         range.ex <- function(x, fac=1.1) { xrg <- range(x);  m <- mean(xrg);  (xrg - m)*fac + m }
+##     The next function lists all symbols of a namespace sorted by the
+##       size of the assigned data in terms of bytes:
          los <- function(pos=1) sort(sapply(ls(pos=pos), function(nam) object.size(get(nam))))
-##   Comments:
-##   . 'rg.ex()' can be used to add more space around a plot:
-         x <- 1:1000;  y <- sin(x)
-##     default: insufficient space around plotted object
-         plot(x, y, pch=16, cex=.5)
-##     stretch by 10%:
-         xlim <- rg.ex(x);  ylim <- rg.ex(y)
-         plot(x, y, xlim=xlim, ylim=ylim, pch=16, cex=.5)
-##     stretch ylim by a factor of 4:
-         xlim <- rg.ex(x,1);  ylim <- rg.ex(y,4)
-         plot(x, y, xlim=xlim, ylim=ylim, pch=16, cex=.5)
-##     stretch xlim by a factor of 4:
-         xlim <- rg.ex(x,4);  ylim <- rg.ex(y,1)
-         plot(x, y, xlim=xlim, ylim=ylim, pch=16, cex=.5)
-##     Interesting patterns, aren't they?
-##
-##   . 'los()' lists all symbols of a namespace sorted by the
-##       size of the assigned data in terms of bytes.
-##       [The default 'pos=1' means 'search()[1], i.e., the first namespace in the search path.]
-##       The function is useful in tracking down large data structures that
-##       are no longer used yet take up space in the memory of the R process.
+##     [The default 'pos=1' means 'search()[1], i.e., the first namespace in the search path.]
+##      The function is useful in tracking down large data structures that
+##      are no longer used yet take up space in the memory of the R process.
          los()
 ##
 
@@ -4084,10 +4251,2624 @@ log10(1000);  log10(5000);  log10(10000)
 #================================================================
 ##
 ##
-## * OTHER LOOPING CONSTRUCTS: 'repeat' and 'while'
+## TEXT ANALYSIS AND MANIPULATION
 ##
 ##
+## * REMINDER: Functions for text data we already know
+##
+##   - String lengths:
+        nchar
+##   - String editing with 'sub()' and 'gsub()':
+        gsub;  sub
+##   - Extract substrings:
+        substring
+
+
+## * TEXT EXAMPLE: Shakespeare's collected works from the Gutenberg Project
+         download.file("http://www.gutenberg.org/cache/epub/100/pg100.txt",
+                       destfile = "Shakespeare-Collected-Works.txt")
+##     If this doesn't work, download it from Canvas > Files > Datasets
+##     to your working directory:    getwd()
+
+
+## * RAW EXAMINATION:
+##     Get a sense of what's in the text file by reading it into
+##     a text editor, such as Notepad on Windows (what is it on a Mac?).
+
+
+## * READING TEXT INTO R:  'readLines()'
+##     This function reads text and forms one character string per line.
+##     Read just the first 20 lines:
+         readLines("Shakespeare-Collected-Works.txt", n=20)
+##     Some preamble text at the beginning.
+##     Read the whole collected works into a string vector, one line per string:
+##     --------------------------------------------------------------
+         bard.lines <- readLines("Shakespeare-Collected-Works.txt")  #
+##     --------------------------------------------------------------
+##     How many lines?
+         length(bard.lines)    # 124787;  how many lines did you get?
+##     Here are the first 200 lines:
+         bard.lines[1:200]
+##     Turns out most of it is legal matter from the Gutenberg project.
+##     Let's focus on the sonnets which make up the first part of the file.
+
+
+## * TEXT SEARCH:  'grep()'
+##     It appears that "     1" is the header of the first sonnet.
+##     We can search for this string with 'grep()':
+         grep("     1", bard.lines)
+##     Oh, these are the line numbers where the string appears.
+##     What are these lines?
+         sel <- grep("     1", bard.lines)
+         bard.lines[sel]
+##     Or as a one-liner:
+         bard.lines[grep("     1", bard.lines)]
+##     We got matches with all sonnet numbers that start with a digit 1,
+##     including: "    10",  "    11",  ...,  "    154".
+##     Apparently Shakespeare wrote 154 sonnets.
+##
+##     [Search Wikipedia for the obscure Unix history of the name 'grep'.
+##      Like 'google', the word 'grep' is also used as a verb.]
+
+
+## * REGULAR EXPRESSIONS:
+##
+##     The problem with the search for "    1" is that it yielded
+##     matches we didn't intend.
+##     What we meant was "    1" at the end of a line.
+##     ==> We need ways of defining text patterns that can express
+##     conditions such as
+##       'text at the end of a line', or
+##       'text at the beginning of a line', or
+##       'text filling the whole line'.
+##     It turns out that the first arg to 'grep()' is not a plain
+##     string but a 'regular expression' in which certain characters
+##     have meanings other then themselves:
+##     - If you want a string "..." to be at the beginning of the line, use
+         "^..."
+##     - If you want a string "..." to be at the end of the line, use
+         "...$"
+##     - If you want a string "..." to fill the whole line, use
+         "^...$"
+##     The characters '^' and '$' are 'meta-characters' that express
+##     something other than themselves.
+##
+##     Since we are looking for a string at the end of the line, we will be using:
+         grep("    1$", bard.lines)
+##   There is just one such line, 182.
+##   [Let the instructor know if you got something different.]
+
+
+## * BACKGROUND ABOUT 'grep()':
+##
+##   . Plain 'grep()' returns positive integers with the positions
+##     where the pattern is found.
+##
+##     As another example, when srolling through the text in the text
+##     editor, we see that legal disclaimers start at the beginning of
+##     a line with the characters "<<".  We can search for them as
+##     follows:
+         grep("^<<", bard.lines)
+##     Apparently these disclaimers appear in over 200 places.
+##
+##   . Logical 'grepl()'  returns a logical vector with TRUE for the
+##     positions where the pattern is found:
+##     Don't do it on Shakespeare's works, though:
+##     It will be a vector of 124787 TRUE/FALSE values!
+##     But you can use 'which()' to get the same effect as plain 'grep()':
+         which(grepl("^<<", bard.lines))
+##
+##   . Value 'grep()': This is plain 'grep()' but with argument 'value=T'.
+##     Default is 'value=F'.  It returns the strings with the pattern matches.
+##     Earlier we emulated this by first doing the selection and then indexing:
+         bard.lines[grep("     1$", bard.lines)]
+##     The following does the same:
+         grep("     1$", bard.lines, value=T)
+##     This is so useful that the instructor wanted a 'grepv()' function:
+         grepv <- function(...) { grep(..., value=T) }
+##     Hence:
+         grepv("    1$", bard.lines)
+##
+##   . Here is from 'help(grep)':
+##        grep(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE,
+##             fixed = FALSE, useBytes = FALSE, invert = FALSE)
+##        grepl(pattern, x, ignore.case = FALSE, perl = FALSE,
+##              fixed = FALSE, useBytes = FALSE)
+##
+##     Nice to know two additional arguments::
+##     + 'ignore.case=T' asks to ignore upper/lower case differences.
+##     + 'fixed=T' asks that the pattern NOT be interpreted as a
+##       regular expression but as a plain string.
+##
+##   . The patterns "^..." and "...$" are just first examples of
+##     regular expression syntax.  There is a rich regular expression
+##     language for defining very general text patterns.
+
+
+## * EXTRACTING A TEXT PIECE: THE BARD'S SONNETS
+##
+##   [See Dictionary for the meaning of 'sonnet':
+##     http://dictionary.reference.com/browse/sonnet?s=t
+##    ]
+
+##   We will extract the sonnets by defining their start
+##   and stop within the collected works:
+##       ----------------------------------------------
+         sonnets.start <- grep("     1$", bard.lines)  #
+##       ----------------------------------------------
+         sonnets.start              # 182
+         bard.lines[sonnets.start]  # [1] "                     1"
+##   This did it!
+##   To be sure, print a few lines before and after:
+         bard.lines[sonnets.start+(-10):10]   # sanity check
+##     Next task: Where is the end of the sonnets?
+##     Scroll down in your editor to the end of the
+##     154th sonnet.  You'll find the words "THE END".
+         grep("THE END", bard.lines)
+##     ==> 38 times.  Ours is most likely the first:
+         sonnets.stop <- grep("THE END", bard.lines)[1]
+##     Check:
+         bard.lines[sonnets.stop + (-20):20]
+##     Fine; after the sonnets is the start of a play, "ALLS WELL THAT ENDS WELL".
+##     We really don't want "THE END" as part of the sonnets,
+##     so we'll stop one line before:
+##       ----------------------------------------------------
+         sonnets.stop <- grep("THE END", bard.lines)[1] - 1  #
+##       ----------------------------------------------------
+         sonnets.stop                # [1] 2798
+##     Finally, let's get at the sonnets, using a ladder from start to end:
+##       ---------------------------------------------------------
+         sonnets.lines <- bard.lines[sonnets.start:sonnets.stop]  #
+##       ---------------------------------------------------------
+##     Examine some basics:
+         length(sonnets.lines)      # 2617 lines
+##     First few sonnets:
+         head(sonnets.lines, 50)    # ok, first sonnet
+##     Last few sonnets:
+         tail(sonnets.lines, 50)    # ok, last sonnet
+
+
+## * SORTING TEXT: Beginnings of style analysis
+##
+##     Here is an interesting exercise that gives a little hint at the
+##     rhetorical devices Shakespeare used:
+         sort(sonnets.lines)             # (*)
+##     We find, for example, 40 lines (out of 2600+)
+##     that start with the exclamation "O ...",
+##     as in:
+##       [1769] "  O though I love what others do abhor,"
+##       [1770] "  O truant Muse what shall be thy amends,"
+##       [1771] "  O what a happy title do I find,"
+##
+##     There are many more repeatedly used patterns for starting a new
+##     line.  It isn't so that a genius poet tries to present a
+##     stylistic novelty on every line.  Rather, he/she has a large
+##     number of devices he/she uses repeatedly.
+
+
+## * CLEANING OUT EMPTY STRINGS:
+##
+##     At the beginning of the sorted list (*) we find 308 empty
+##     lines.  They are the dividing lines between the sonnets, two
+##     per division.  Let's remove them.
+##
+##     We do the removal the dangerous way by self-replacement.  It
+##     should not harm because doing it a second time will not change
+##     anything.
+##       ------------------------------------------------------
+         sonnets.lines <- sonnets.lines[sonnets.lines != ""]   #
+##       ------------------------------------------------------
+         cbind(head(sonnets.lines, 50))   # Same as 'sonnets.lines[1:50]'
+         cbind(tail(sonnets.lines, 50))
+##     Looks good, except we see al these leading blanks that are
+##     uninformative.
+
+
+## * CLEANING OUT LEADING BLANKS: 'sub()' with a regular expression
+##
+##     We don't want to clean out ALL blanks; this would merge words.
+##     We only want to get rid of leading blanks of any number.
+##     To do this we need to know more about 'sub()' and 'gsub()':
+##     They, too, allow regular expressions in the first argument.
+##     That is, one can specify a text pattern to be replaced with
+##     a specific fixed string (the latter not a pattern).
+##     For example,
+         tmp <- "  As his triumphant prize, proud of this pride,"
+         sub("^ ", "", tmp)
+##     removes the initial blank from the string in 'tmp'.
+##     We would like to remove as many leading blanks as possible.
+##     To this end we need to know one more special character for
+##     regular expressions: '+'.  It, too, is a meta-character with
+##     special meaning: it says to match any repetition of the
+##     preceding pattern.  For example, " +" means to match " ",
+##     "  ", "   ", "    ", and so on, as many contiguous blanks
+##     as can be found.  The solution to removing leading blanks
+##     is therefore:
+         sub("^ +", "", tmp)
+##     [If you wanted replace all leading blanks with one "#$%",
+##     the solution would be:
+         sub("^ +", "#$%", tmp)
+##     ]
+##     Finally, the 'string cleaning' from leading blanks:
+##       --------------------------------------------------------------------------
+         sonnets.lines <- sapply(sonnets.lines, function(x) { sub("^ +","",x) } )  #
+##       --------------------------------------------------------------------------
+         head(sonnets.lines, 50)   # Same as 'sonnets.lines[1:50]'
+         tail(sonnets.lines, 50)
+##     Bother, 'sapply()' turned the result into a named vector.
+##     Remove the names:
+##       -------------------------------------------
+         sonnets.lines <- as.vector(sonnets.lines)  #
+##       -------------------------------------------
+         head(sonnets.lines, 50)   # Same as 'sonnets.lines[1:50]'
+         tail(sonnets.lines, 50)
+##     Fine.  Except:
+
+
+## * CLEANING EMPTY LINES:
+##
+##     In the last 'tail()' expression we noticed empty lines, which
+##     are a nuisance.  We remove them, again with self-modification.
+##       -----------------------------------------------------
+         sonnets.lines <- sonnets.lines[sonnets.lines != ""]  #
+##       -----------------------------------------------------
+         length(sonnets.lines)     # 2309
+##     We anticipate this to be the final number of lines, including
+##
+         head(sonnets.lines, 50)   # Same as 'sonnets.lines[1:50]'
+         tail(sonnets.lines, 50)
+
+
+## * CHECKING REPETITION PATTERNS:
+##
+##     According to
+##       http://dictionary.reference.com/browse/sonnet?s=t
+##     a sonnet consists of 14 lines.
+##     After cleaning we should be left with 14 lines per sonnet,
+##     each preceded by a line consisting of the sonnet number (1:154).
+##     We should check whether this regularity exists in 'sonnets.lines'.
+##     We can go about it by checking whether the lines consisting of
+##     sonnet numbers are spaced by 15 positions.
+##     ==> Identify the lines that contain numbers.
+##
+##     To do this, we need to learn about two more features of
+##     regular expressions: lists and ranges.
+##
+##   - In order to match any digit, we can list them in brackets:
+         grepv("[0123456789]", sonnets.lines)
+##     ==> Exactly the lines containing the sonnet numbers.
+##     That is, Shakespeare didn't use numbers in his sonnets...
+##
+##   - In order to match characters in a range, use hyphens:
+         grepv("[0-9]", sonnets.lines)
+##
+##     Other examples: Looking for rare capital letters...
+         grepv("[QXY]", sonnets.lines)
+##     OK, "Y" is not rare, but "Q" and "X" do not occur at all.
+         grepv("[X-Z]", sonnets.lines)
+##     "Z" does not occur at all.
+##
+##     For getting at the positions of the lines with numbers,
+##     we need the raw 'grep()' version:
+         grep("[0-9]", sonnets.lines)
+##     Collect them:
+##       ---------------------------------------------
+         sonnets.num <- grep("[0-9]", sonnets.lines)  #
+##       ---------------------------------------------
+##     How can we check whether they are all spaced by 15 positions?
+##     Use 'diff()':
+         diff(sonnets.num)
+##     There is just one problem: We don't have a length for the last sonnet!
+##     The number 154 of the last sonnet will be before the sonnet,
+##     so we don't get the length of the last.
+##     This can be helped by adding one more position, just past the last line:
+##       -----------------------------------------------------------------------
+         sonnet.lengths <- diff(c(sonnets.num, length(sonnets.lines)+1 ) ) - 1  #
+##       -----------------------------------------------------------------------
+##     We also had to subtract 1 because we don't want the number lines
+##     counting as lines of the sonnets.
+##     Are the all lengths 14?
+         sonnet.lengths
+         all(sonnet.lengths == 14)
+##     Ooops!  FALSE
+##     A more general answer to such questions is obtained by tabulation:
+         table(sonnet.lengths)
+##     Look at that!  There are two violations!
+##     One sonnet is of length 12, and one is of length 15.
+##     Let's find them!  How?
+##     Ask 'which()' sonnets have lengths != 14:
+         sonnets.odd <- which(sonnet.lengths != 14)
+         sonnets.odd
+##     Sonnets 99 and 126!  Let's print those sonnets:
+         sel <- sonnets.num[sonnets.odd[1]] + 0:16
+         sonnets.lines[sel]
+##     Indeed, sonnet 99 is of length 15.
+##     An independent source, Cliff Notes, at
+##       http://www.cliffsnotes.com/literature/s/shakespeares-sonnets/summary-and-analysis/sonnet-99
+##     confirms the odd length.
+##     Sonnet 126:
+         sel <- sonnets.num[sonnets.odd[2]] + 0:16
+         sonnets.lines[sel]
+##     Sonnet 126 is indeed of length 12!  Again, Cliff Notes, at
+##       http://www.cliffsnotes.com/literature/s/shakespeares-sonnets/summary-and-analysis/sonnet-126
+##     confirms length 12.  Yet another source,
+##       http://www.shakespeares-sonnets.com/all.php
+##     (search for 126, Roman CXXVI), indicates that
+##     two lines may be missing at the end.
+##     Could it be that it was it unfinished?
+##     Probably not -- it was the last of a series on youth,
+##     so the premature ending may have meaning.
+##
+##     PS: The instructor was motivated to examine sonnet lengths
+##     because he noted that
+         length(sonnets.lines)  # 2309
+##     did not agree with
+         154 * (1 + 14)         # 2310
+##     Where was the missing line?
+##     Now we know:
+##     One sonnet is too long by 1,
+##     and one is too short by 2.
+
+
+## * KNOWING IN WHICH SONNET A LINE IS:
+##
+##     Given line 253, what sonnet is it in?
+##     If you need to do this just once, you can look at the preceding
+##     text, no more than 14 lines back to find a sonnet number:
+         sonnets.lines[253+(-14):0]
+##     Ok, Line 253 is in sonnet 17.
+##     Let's not be lazy, though, and construct a vector that tells
+##     the sonnet number for each line.
+##
+##     If all 154 sonnets were of equal length, there would be no
+##     problem constructing such a vector: 'rep(1:154, each=15)'
+##     but this is not the case.  So we need to do something that
+##     works for arbitrary sonnet lengths.
+##
+##     Here is a recipe that works for very general situations:
+##     We are able to detect the lines where a new sonnet starts,
+##     namely, lines containing a number:
+##       -------------------------------------------------
+         sonnets.numbers <- grep("[0-9]", sonnets.lines)  #
+##       -------------------------------------------------
+         sonnets.numbers
+##     We see that sonnet 1 starts at 2 and ends at 15, sonnet 2
+##     starts at 17 and ends at 30, ....
+##     Hence the starts are at:
+         sonnets.starts <- sonnets.numbers + 1
+         sonnets.starts
+##     and the ends are at ... well, that's more complicated because
+##     the last sonnet doesn't have a next sonnet.  We need to patch
+##     the end:
+         sonnets.stops <- c(sonnets.numbers[-1]-1, length(sonnets.lines))
+         sonnets.stops
+##     You see the trick: leave out the first to shift the vector back
+##     by one position, the subtract one to get the ends of the sonnets.
+##
+##     With these tools we can construct a vector that tells the
+##     sonnet number for each line:
+         sonnets.which <- rep(0, length(sonnets.lines))
+         for(j in 1:length(sonnets.starts)) {
+             tmp <- sonnets.starts[j]:sonnets.stops[j]
+             sonnets.which[tmp] <- j
+         }
+         sonnets.which
+##     Correct?
+         cbind(sonnets.which, sonnets.lines)[1:50,]
+##     Indeed.
+##
+##     Alternative approach: Form a dummy vector for the number
+##     positions, then use 'cumsum()' to form a 'stepping vector'.
+         sonnets.which.alt <- cumsum(grepl("[0-9]", sonnets.lines))
+         sonnets.which.alt  # Ok, almost the same except for zeros at number lines
+         sonnets.which.alt[sonnets.numbers] <- 0
+##     Same as the first approach?
+         all(sonnets.which.alt == sonnets.which)   # Indeed
+##     Let's keep this approach as the authoritative one:
+##       -------------------------------------------------------
+         sonnets.which <- cumsum(grepl("[0-9]", sonnets.lines)) #
+         sonnets.which[sonnets.numbers] <- 0                    #
+##       -------------------------------------------------------
+##
+##     Now we can easily get at sonnet 101, for example:
+         cbind(sonnets.lines[sonnets.which == 101])
+##     It is now also easy to count how many text lines there are:
+##       -------------------------------------------
+         sonnets.lines.N <- sum(sonnets.which > 0)  #
+##       -------------------------------------------
+         sonnets.lines.N    # 2155
+##     This agrees with what we know about lengths of the sonnets:
+         (154-2)*14 + 12 + 15
+
+
+## * STRING SPLITTING TO GET AT WORDS:  'strsplit()'
+##
+##     Task: Split the sonnet lines into words.
+##     To this end use the function 'strsplit()'.
+##     It accepts string patterns to split on.
+##     The pattern we look for is a blank, " ", or
+##     multiples thereof: "  ", "   ", "    ", ... ,
+##     even though we would not expect them.
+##     We can use the regular expression " +" as a splitter:
+##     It will remove any number of contiguous blanks and break each line
+##     into a vector of strings that are presumably words.
+##     Using " +" to allow for multiple blanks will avoid the possibility
+##     that empty words "" appear.
+##       ------------------------------------------------------
+         sonnets.lines.split <- strsplit(sonnets.lines, " +")  #
+##       ------------------------------------------------------
+##     Beware!  The function returned a list containing
+##     one string vector per line:
+         class(sonnets.lines.split)      # 'list'
+##     The length should still be the same:
+         length(sonnets.lines)
+         length(sonnets.lines.split)
+##     Yes, 2309 lines in each.
+##     Examine the results:
+         head(sonnets.lines.split, 50)
+         tail(sonnets.lines.split, 50)
+##     By construction we are sure that there won't be any empty words.
+##     Still, let's check:
+         any(sapply(sonnets.lines.split, function(x) { any(x == "") } ))   # FALSE
+         sum(sapply(sonnets.lines.split, function(x) { sum(x == "") } ))   # 0
+##     The second version would be more informative if there were empty words:
+##     it would tell us how many.
+
+
+## * CLEANING WORDS OF PUNCTUATIONS AND OTHER NON-ALPHABETIC CHARACTERS:
+##
+##     Most lines contain non-alphabetic characters:
+         length(grep("[.,;:?!]", sonnets.lines))
+##     Clean them out with 'gsub()'.
+##     As we learned earlier, we can substitute text patterns with strings.
+##     The pattern in terms of regular expressions is "[.,;:?!]",
+##     and the replacement string is "".
+##     Again we need to loop down the list 'sonnets.lines.split',
+##     and again we do it with dangerous self-modification:
+##       ---------------------------------------------------------------------------------------------
+         sonnets.lines.split <- sapply(sonnets.lines.split, function(x) { gsub("[.,;:?!]", "", x) } ) #
+##       ---------------------------------------------------------------------------------------------
+         head(sonnets.lines.split, 50)
+         tail(sonnets.lines.split, 50)
+##     Looks good.  Are there any other non-alphabetic/non-numeric characters?
+##     To find out we need to learn about yet another piece of regular expression
+##     syntax:
+##     - We learned that "^" can indicate the beginning of a line.
+##     - However, if it is inside a bracket, it means negation:
+##       'NOT any that follow in the bracket list'.
+##     The regular expression for non-alphabetic/non-numeric is:
+         "[^0-9a-zA-Z]"
+##     It's easiest to do the search on the raw list of words,
+##     obtained with 'unlist(sonnets.lines.split)':
+##     We don't need to loop over it because it's a vector,
+##     and 'grep()' is vectorized.  We'll use 'grepv()', though,
+##     to see the words, not their positions:
+         grepv("[^0-9a-zA-Z]", unlist(sonnets.lines.split))
+##     Lots of apostrophes!  We can live with them, even though
+##     we'd love to get rid of the possessives: "Time's", "another's",...
+##     Search them specifically:  Use the pattern "'s$", where
+##     "$" makes sure that we're not also catching "'st", for example.
+         grepv("'s$", unlist(sonnets.lines.split))
+##     So, yes, these seem to be over 200 possessives and contractions.
+##     We would have to know about word meanings to tell the difference
+##     between the two.  Let's just remove them, even though we may lose
+##     a few contracted "has" and "is":
+##       ---------------------------------------------------------------------------------------
+         sonnets.lines.split <- sapply(sonnets.lines.split, function(x) { sub("'s$", "", x) } ) #
+##       ---------------------------------------------------------------------------------------
+##     We used 'sub()', not 'gsub()', because there will be only one possessive per word.
+##     There is also the possessive form "mistress'".  Search and remove:
+         grepv("'$", unlist(sonnets.lines.split))
+##     No, not all possessives; some are contractions such as "Th'" for "The" and "t'" for "to".
+##     We'll remove the apostrophes after terminal "s":
+##       ----------------------------------------------------------------------------------------
+         sonnets.lines.split <- sapply(sonnets.lines.split, function(x) { sub("s'$", "s", x) } ) #
+##       ----------------------------------------------------------------------------------------
+##     Looking for non-alphabetic/non-numeric again:
+         grepv("[^0-9a-zA-Z]", unlist(sonnets.lines.split))
+##     Still many apostrophes.  We can wipe out at least those at the
+##     beginning and end of a word, as in "'i" and "that'"
+##       -----------------------------------------------------------------------------------------
+         sonnets.lines.split <- sapply(sonnets.lines.split, function(x) { sub("^'|'$", "", x) } ) #
+##       -----------------------------------------------------------------------------------------
+##     Here we used a new piece of regular expression syntax:
+##     the meta-character '|' means 'or', that is,
+##     the either of the two expressions create a match.
+##     If you prefer, you can make sure that the sub-expressions are
+##     bundled as intended by using parens '(' and ')', which are also
+##     meta-characters:
+##       sub("(^')|('$)", "", x)
+##
+##     What else?  Look for characters other than apostrophes as well:
+         grepv("[^0-9a-zA-Z']", unlist(sonnets.lines.split))
+##     Search parens: Regular expression "[()]"
+         grepv("[()]", unlist(sonnets.lines.split))
+##     Remove them, using 'gsub()' to catch multiple parens:
+##       -----------------------------------------------------------------------------------------
+         sonnets.lines.split <- sapply(sonnets.lines.split, function(x) { gsub("[()]", "", x) } ) #
+##       -----------------------------------------------------------------------------------------
+         head(sonnets.lines.split, 50)
+         tail(sonnets.lines.split, 50)
+##     Looks quite clean.  Check for non alphabetic/numeric/apostrophes one more time:
+         grepv("[^0-9a-zA-Z']", unlist(sonnets.lines.split))
+##     Dominated by hyphens, which we probably want to leave as is.
+
+
+## * GETTING RID OF UPPER CASE:
+##
+##     When interest focuses on words, we are not interested in
+##     upper/lower case.  It is natural to convert everything to lower
+##     case.  There are functions 'tolower()' and 'toupper()':
+         tolower(LETTERS)
+##     results in 'letters'.
+##       ---------------------------------------------------------------------------------
+         sonnets.lines.split <- sapply(sonnets.lines.split, function(x) { tolower(x) } )  #
+##       ---------------------------------------------------------------------------------
+         head(sonnets.lines.split, 50)
+         tail(sonnets.lines.split, 50)
+##     Much harder to read now, with punctuation, possessives and upper
+##     case gone.
+
+
+## * STYLE ANALYSIS: First word of each line?
+##
+##     We loop down the list of lines and extract the first word:
+##       -----------------------------------------------------------------------
+         sonnets.1stWords <- sapply(sonnets.lines.split, function(x) { x[1] } ) #
+##       -----------------------------------------------------------------------
+##       ==> Vector of first words
+##     Check:
+         sonnets.1stWords      # 1st words in the order of the lines
+##     It is an interesting though surreal exercise to read these first words aloud.
+##     They have a rhythm of their own, and they change character from sonnet to sonnet
+##
+##     To get more quantitative insight, let's tabulate the 1st words,
+##     but without the sonnet numbers:
+##       -------------------------------------------------------------------
+         sonnets.1stWords.tab <- table(sonnets.1stWords[-sonnets.numbers])  #
+##       -------------------------------------------------------------------
+         sonnets.1stWords.tab
+##     Here the order is alphabetic.  Sort instead by frequency:
+         sort(table(sonnets.1stWords))
+##     ==> 242 lines start with 'And', 89 with 'But', 83 with 'That', 78 with 'To', ...
+##     How many distinct 1st words are there?  Answer:
+##       ----------------------------------------------------
+         sonnets.1stWords.N <- length(sonnets.1stWords.tab)  #
+##       ----------------------------------------------------
+##     Explain to yourself why this counts the number of distinct 1st words.
+         sonnets.1stWords.N     # 399 distinct 1st words
+##     Compare this to the number of text lines (i.e., w/o sonnet numbers):
+         sonnets.lines.N        # 2155 lines
+##     So the average number of repeats of 1st words is:
+         sonnets.lines.N / sonnets.1stWords.N     # ~ 5.4
+
+
+## * ANALYSIS OF 1ST WORD FREQUENCIES: REDUNDANCIES
+##
+##   - Ideas:
+##     . Is there a 80-20 rule, such as 20% of beginnings account for 80% of lines?
+##     . How many beginnings are needed to account for 50% of lines?
+##     Consider this:
+         (154-2)*14+12+15;  sonnets.lines.N  # 2155 is the number of lines in all sonnets.
+         242/2155                            # ~11% is the fraction of lines starting with 'And'
+         (242+89)/2155                       # ~15% is the fraction of lines starting with 'And' or 'But'
+##       ...    How many different beginnings for 50% of the lines?  ... for 80% of the lines?
+##
+##   - How can we accumulate the counts of most frequent 1st words in a systematic way?
+##     Recall the tabulation:
+         sort(sonnets.1stWords.tab)
+##     We would like to cumulatively sum up the frequencies from the end.
+##     ==> Reverse-sort the tabulation and sum it cumulatively!
+##       -------------------------------------------------------------------------
+         sonnets.1stWords.tab.csum <- cumsum(sort(sonnets.1stWords.tab, decr=T))  #
+##       -------------------------------------------------------------------------
+         head(sonnets.1stWords.tab.csum, 20)         # decreasing sort: ^^^^^^
+##     We can transform this vector to cumulative percentages:
+##       -------------------------------------------------------------------------------------------
+         sonnets.1stWords.tab.cperc <- round(sonnets.1stWords.tab.csum / sonnets.lines.N * 100, 1)  #
+##       -------------------------------------------------------------------------------------------
+##     We rounded the percentages to one decimal for easier reading:
+         head(sonnets.1stWords.tab.cperc, 20)
+         tail(sonnets.1stWords.tab.cperc, 20)
+##     Show the cumulative percentages of lines accounted for together with cumulative
+##     percentages of 1st words (i.e., fraction of 399):
+         cbind("Rank"      =seq(len=sonnets.1stWords.N),
+               "Perc.1stW" =round( seq(len=sonnets.1stWords.N)/ sonnets.1stWords.N, 3),
+               "Perc.Lines"=sonnets.1stWords.tab.cperc
+               )[1:20,]
+##     ==> 17 or 4.3% of the most frequent 1st words account for over 50% of lines.
+
+##     How many distinct 1st words do we need to account for 80% of lines?
+##     We can find out by asking: which is the first word for which
+##     the cumulative percentage exceeds 80?  The answer:
+         which(sonnets.1stWords.tab.cperc >= 80)[1]    # 80, by sheer coincidence
+##     That's indeed 80/399 ~ 20% of distinct 1st words
+##     are needed to account for 80% of line beginnings.
+##     We have a perfect 80/20 rule!
+
+
+## * GRAPHICAL REPRESENTATION OF REDUNDANCY IN LINE BEGINNINGS:
+##
+##     Represent the cumulative numbers of lines accounted for by the
+##     most frequent 1st words as a curve:
+##
+         par(mgp=c(2.5,0.5,0))   # Magical incantation to draw axis labels closer to axes
+         plot(sonnets.1stWords.tab.csum, ylim=c(0,sonnets.lines.N), type="o", pch=16, cex=.3,
+              xlab="# 1st Words", ylab="# Lines Accounted For",
+              main="Redundancy among First Words of Lines \n in Shakespeare's Sonnets")
+         lines("x"=c(0,sonnets.1stWords.N), "y"=c(0,sonnets.lines.N), col="gray70")
+##     Add the 50% and 80% points:
+         for(j in c(17, 80)) {
+             points(x=j, y=sonnets.1stWords.tab.csum[j], pch=16)
+             lab <- paste(j," (",round(j/sonnets.1stWords.N*100,1),"%) 1st words for ",
+                          sonnets.1stWords.tab.cperc[j], "% of lines", sep="")
+             text(x=j, y=sonnets.1stWords.tab.csum[j], pos=4, cex=.8,
+                  lab=lab )
+         }
+##     Explain the meaning of the diagonal line:
+         text(x=sonnets.1stWords.N/20, y=sonnets.lines.N/20,
+              lab="     If all 1st words appeared the same number of times...",
+              cex=.7, adj=c(0,0))
+##
+##     Discussion:
+##     . The steep slope on the left reflects the fact that few but
+##       frequent 1st words account for many lines.
+##     . In the top right, starting at about 150, the curve seems to ascend linearly.
+##       Is there a reason?  Check this:
+         sonnets.1stWords.tab.csum[150:sonnets.1stWords.N]
+         sort(sonnets.1stWords.tab, decr=T)[150:sonnets.1stWords.N]
+##     So the explanation is: ...
+
+
+## * AGGREGATING LINES TO SONNETS:
+##
+##     TASK: Generate a list consisting of 154 vectors, each
+##     containing the words of a sonnet.
+##
+##     It pays that we constructed earlier the vector 'sonnets.which'
+##     to tell for each line what sonnet it is in!
+##
+##     Here are thinking steps for building up the code:
+         j <- 101                                         # some sonnet
+         sonnets.which == j                               # lines for this sonnet (TRUE/FALSE)
+         sonnets.lines.split[sonnets.which == j]          # (*) words per line for this sonnet (a sub-list)
+         unlist(sonnets.lines.split[sonnets.which == j])  # words per line for this sonnet (a vector)
+##     The third line (*) is the one to think through:
+##     . Recall that 'sonnets.lines.split' is a list containing vectors,
+##       each vector containing the words of one line.
+##     . Recall that lists allow the same indexing as vectors in single
+##       brackets, i.e.: positive integers, negative integers, logical
+##       values, and by name (if any).
+##     . Important: Indexing with single brackets in lists produces sublists!
+##     That's why the line (*) produces a sublist of 'sonnets.lines.split'.
+##
+##     Now loop j over 1:154.  We write this vector as
+         su(sonnets.which)[-1]
+##     For good programming style one should not hardwire constants
+##     such as 154.  Instead, make sure that j runs over the
+##     legitimate values of 'soonets.which' (excluding 0):
+         sonnets.words <- sapply(su(sonnets.which)[-1],
+                                 function(j) { unlist(sonnets.lines.split[sonnets.which == j]) } )
+##     If you prefer loops, the following does the same:
+         sonnets.words.alt <- list()          # Allocate an empty list
+         for(j in su(sonnets.which)[-1]) {    # Extend the list for each value of 'j'
+             sonnets.words.alt[[j]] <- unlist(sonnets.lines.split[sonnets.which == j])
+         }
+##     Are the lists the same?  Answer:
+         all.equal(sonnets.words, sonnets.words.alt)   # TRUE
+         rm(sonnets.words.alt)   # We only need one copy.
+##
+##     The result is another list:
+         length(sonnets.words)
+##     Here are the first and last two sonnets:
+         head(sonnets.words, 2)
+         tail(sonnets.words, 2)
+##     Pretty strange to read!
+
+
+## * PROGRAMMING REMARK: Testing equality of data structures
+##
+##   - To check equality of ...
+##
+##     . complex data structures such as lists and dataframes, use:
+          all.equal(list(1:3,letters[1:2]), list(c(1,2,3),c("a","b")) )
+##
+##     . data structures with uniform atomic type of the elements
+##       (vectors, matrices, arrays), use one of the following:
+          sum(c(2,4,6) != 2*(1:3))     # 0 differences
+          all(c(2,4,6) == 2*(1:3))     # TRUE
+          all.equal(c(2,4,6), 2*(1:3)) # TRUE
+##
+##     . atomic data, use one of the following:
+          "a"==letters[1];  1==1.00                       # TRUE, TRUE
+          all.equal("a", letters[1]);  all.equal(1, 1.00) # TRUE, TRUE
+          all.equal(pi, 3.14159)     # Now this is nice, isn't it?
+##
+##   - A more stringent comparison is with 'identical()', but this
+##     is so stringent, that even integers and double precision numbers
+##     of the same value are shown as different:
+          identical(1:3, c(1,2,3))     # FALSE
+##     Why?  Because:
+          typeof(1:3)         # "integer"
+          typeof(c(1,2,3))    # "double"
+##     The difference is in the 'storage mode':
+##     . An integer takes up 4 bytes.
+##     . A double precision number takes up 8 bytes.
+
+
+## * ANALYZING GLOBAL WORD COUNTS:
+##
+##   - TASK: Tabulate all words across all sonnets.
+##       -----------------------------------------------------------------
+         sonnets.words.tab <- sort(table(unlist(sonnets.words)), decr=T)  #
+##       -----------------------------------------------------------------
+##     . Recall that we got rid of the line numbers when aggregating
+##       from lines to sonnets, so there are no numbers.
+##     . We sorted the tabulation in decreasing order of frequencies
+##       so as to place the most frequent words at the top.
+##
+##     Now some questions:
+##
+##   - How many distinct words are there?
+         sonnets.words.N <- length(sonnets.words.tab)
+         sonnets.words.N                       # 3140
+##     At first this may seems little because the English language has
+##     a very large vocabulary.  However, the total number of words in
+##     all sonnets is only:
+         length(unlist(sonnets.words))              # 17582
+##
+##   - What are the 100 most frequent words?  This is why we sorted
+##     the table in decreasing order:
+         cbind(rank=1:sonnets.words.N, count=sonnets.words.tab)[1:100,]
+##     As expected these are the conjunctions, articles, prepositions,
+##     pronouns, ...
+##
+##   - What is the first true content word?  I.e., a meaningful noun
+##     or verb?  Scroll down from the top, and you will find:
+##                       'love' !
+##     It has rank 11 and appears 188 times, more than once per sonnet
+##     on average.
+##
+##   - What is the next true content word?  You have to scroll down
+##     to rank 42 with frequency 70 to find
+##                       'beauty' !
+##
+##     So if you are asked what the bard's sonnets are about,
+##     maybe not a dumb answer would be 'love and beauty'.
+##
+##   - What are the rare words that appear just once throughout the
+##     sonnets?
+         names(sonnets.words.tab[sonnets.words.tab == 1])
+##     Over 1800 words make just one appearance.  However, this list
+##     is not very clean: it reveals that there are words that
+##     effectively appear twice, once in the singular and once in the
+##     plural.
+
+
+## * GREPPING THROUGH A TABULATION:
+##
+##     In the previous section we saw that there are related words,
+##     such as singulars and plurals, and also related nouns and
+##     adjectives such as 'beauty' and 'beautiful'.  How could we
+##     search for 'beaut', for example, to find all beauty-related
+##     words in the tabulation?  We have 'grepv()':
+         grepv("beaut", names(sonnets.words.tab))
+##     But now we lost the counts.  This seems to call for a function
+##     'greptab()' to grep through tabulations:
+         greptab <- function(pattern, tab, ...) {
+             sel <- grep(pattern, names(tab), ...)
+             tab[sel]
+         }
+##     Try:
+         greptab("beaut", sonnets.words.tab)
+##     Now here is an answer!  There are a total of 4 words, with the
+##     now-uncommon word 'beauteous' appearing 9 times.
+##
+##     Similarly we can check whether there is more 'lov':
+         greptab("lov", sonnets.words.tab)
+##     Of course: "loving" 9 times, "loves" 8 times, "lov'st" 6 times, ...
+##
+##     But we also recognize the limits of automatic text search:
+##     The words 'lovely' and 'loveliness' are probably more related
+##     to 'beauty' than to 'love'.
+
+
+## * MULTIPLE TABULATIONS WITH COMMON SETS OF CATEGORIES:
+##
+## - TASK: Characterize each sonnet by its words.
+##
+##           ("Bag-of-words" approach -- ignore syntax)
+##
+##     The ultimate goal is to somehow group the sonnets into natural
+##     groups, or sort them in a manner other than sonnet numbers to
+##     reflect similarities in content.  This is an ambitious goal,
+##     and we would need much more background from 'multivariate
+##     statistical analysis'.  What follows is more an outlook on what
+##     technical people do with 'text corpora' than a deeply
+##     meaningful analysis.
+##
+## - NEXT STEP: Form a so-called 'term by document matrix'
+##                or  'incidence matrix'.
+##
+##     . Our terms will be unique words, all 3140 of them.
+##     . Our documents will be the 154 sonnets.
+##     . The matrix should tell for each
+##          (word,sonnet) = (term,document) combination
+##       how often the word appears in the sonnet.
+##
+##     Here is what the top left corner of the matrix should look like:
+##
+##                          Sonnets -->
+##                      |   1    2    3    4    5  ...
+##                  ----|-----------------------------
+##          Words   and |   3    4    3    1    4  ...
+##            |     the |   6    1    6    1    3  ...
+##            |     to  |   4    2    2    4    2  ...
+##            v     my  |   0    2    0    0    0  ...
+##                  ... |  ...  ...  ...  ...  ... ...
+##
+##     Some characteristics of the incidence matrix:
+##     . The matrix will be of size 3140 x 154.
+##     . It will contain mostly zeros (except for the frequent words
+##       shown in the top left corner).
+##     . A non-zero entry will be the count of a word in a sonnet.
+##
+##     We will tabulate the words in each sonnet separately in order
+##     to fill the respective column of the incidence matrix.
+##     However, naive tabulation is going to have a problem: each
+##     sonnet has its own set of words, and there will be limited
+##     overlap between them.
+##
+##     The goal should therefore be to force the tabulations of the to
+##     have all the same categories, namely, all the 3140 words that
+##     appear across the sonnets.  As mentioned, most words will have
+##     a count of zero in each sonnet.
+##
+##
+## - PRELIMINARIES in R Programming: 'factor()'
+##
+##     To execute the plan, we will need the function 'factor()' which
+##     the instructor has been avoiding so far.  Its purpose is to
+##     tell what the possible categories are in a categorical
+##     variable.  The issue is that sometimes a categorical variable
+##     could in principle take on values such as "mother", "father",
+##     "child", but in a given dataset or sub-dataset there might be
+##     no "child".  One would want to keep "child" as a category with
+##     a zero count, indicating that in principle it is possible to
+##     observe a child, but in this particular table no child has been
+##     observed.
+##
+##     Development of the idea by example:
+         factor(c("mother","father","mother","mother","father"))
+##     This prints a little like a string vector without the quotes,
+##     but it also lists the 'Levels', i.e., the possible values.
+##
+##     Because we haven't told 'factor()' that there is one more
+##     possible category, "child", it assumes that the observed
+##     categories/levels are all there is.
+##
+##     In order to set the levels, we need to provide one more
+##     argument: 'levels=...'
+         tmp.f <- factor(c("mother","father","mother","mother","father"),
+                         levels=c("mother","father","child"))
+         tmp.f
+##     This time the function expresses the fact that this is a vector
+##     that could take on values "mother", "father" and "child".
+##
+##     The whole purpose is really tabulating:
+         table(tmp.f)
+##     Nice!  It shows there are 0 children in this vector.
+##
+##     As mentioned, the data structure 'factor' is messy because it
+##     looks sometimes like a string vector and sometimes like an
+##     integer vector (it stores the observations as integers which
+##     indicate the position in the vector of levels).  We therefore
+##     use 'factor()' merely as an intermediate step to get us to the
+##     tabulation with the desired set of 'levels'.  We can package
+##     this operation in a function:
+         table.l <- function(x, levels=sort(unique(x))) {
+             table(factor(x, levels=levels))  }
+##     [Question: What are the meanings of 'level' each time?]
+##     Usage:
+         table.l(c("mother","father","mother","mother","father"),
+                 levels=c("mother","father","child"))
+##
+##
+## - TERM-BY-DOCUMENT/INCIDENCE MATRICES:
+##
+##   . In order to create the incidence matrix 'words by sonnets',
+##     we will loop over the sonnets as packaged by 'sonnets.words'.
+##     Recall this is a list, the elements being the vector of words
+##     in a sonnet:
+         str(sonnets.words)
+##
+##     We can loop over 'sonnets.words' and tabulate the words of each
+##     sonnet, using 'names(sonnets.words.tab)' as the levels.
+##     Recall that 'names(sonnets.words.tab)' contains exactly the
+##     unique words of all the sonnets:
+##       -------------------------------------------------
+         sonnets.words.unique <- names(sonnets.words.tab) #
+##       -------------------------------------------------
+##     For each sonnet (word vector in 'sonnets.words'), we will generate
+##     a tabulation with levels in 'sonnets.words.unique'.
+##     So all these tabulations will essentially be integer frequency vectors
+##     of the same length, namely:
+         length(sonnets.words.unique)    # 3140 unique words across all sonnets
+##     Here is the incidence matrix:
+##       -----------------------------------------------------------------------------------
+         sonnets.incMat <- sapply(sonnets.words,                                            #
+                                  function(x) { table.l(x, levels=sonnets.words.unique) } ) #
+##       -----------------------------------------------------------------------------------
+##     [Remark on 'sapply()': If the function in the second argument returns
+##      vectors of the same length, they are returned in a matrix.]
+##
+##     Examine basics of the incidence matrix:
+         class(sonnets.incMat)
+         dim(sonnets.incMat)   # [1] 3140  154
+         sonnets.incMat[1:20,1:20]
+##     Again: The rows correspond to the 'terms', here: words;
+##            the columns correspond to the 'documents', here: sonnets.
+##     As we intended: We got a matrix of the size we expected;
+##                     number of words = 3140, number of sonnets = 154.
+##
+##     [If you prefer 'for' loops to construct the incidence matrix, here is how:
+         sonnets.incMat.alt <- matrix(0,      # Allocate an empty matrix.
+                                      nrow=length(sonnets.words.unique), # num. of words
+                                      ncol=length(sonnets.words) )       # num. of sonnets
+         rownames(sonnets.incMat.alt) <- sonnets.words.unique
+         for(j in 1:length(sonnets.words)) {  # Fill the matrix column by column.
+             sonnets.incMat.alt[,j] <- table.l(sonnets.words[[j]], levels=sonnets.words.unique)
+         }
+##      We got the same matrix indeed:
+         all.equal(sonnets.incMat, sonnets.incMat.alt)   # TRUE
+         rm(sonnets.incMat.alt)                          # We only need one matrix.
+##     ]
+##     After this exercise it should be clear that 'sapply()' generally makes
+##     slicker code than a 'for' loop.  For one thing, there is no need to
+##     pre-allocate a carefully sized and named data structure for the results.
+##
+##   . Check: Does the incidence matrix contain mostly zeros?
+         sum(sonnets.incMat == 0) / length(sonnets.incMat)
+##     Indeed: 97.44% zeros, which is typical for incidence matrices.
+##
+##   . Q: What are incidence matrices good for?
+##     A: They are used to compute 'distance matrices, 'networks' and 'clusterings'
+##        (whatever that means, see next).
+##
+##
+## - DISTANCE MATRICES
+##
+##   . We can calculate a 'distance' for each pair 'i' and 'j' of
+##     sonnets by using the formula
+##       d(i,j) = sqrt((freq1i-freq1j)^2 + (freq2i-freq2j)^2 + ... )   # sum of 3140 squares
+         i <- 10;  j <- 12   # example of two sonnets
+         sqrt(sum((sonnets.incMat[,i] - sonnets.incMat[,j])^2))
+##     Ok, sonnets 10 and 12 have a distance of about 20.76.
+##     What about another pair?
+         i <- 10;  j <- 110   # two sonnets
+         sqrt(sum((sonnets.incMat[,i] - sonnets.incMat[,j])^2))
+##     This distance is about 18.92.
+##     ==> Sonnet 10 is closer to sonnet 110 than it is to sonnet 12,
+##         at least by the lights of this distance measure.
+##
+##   . Going one step further, we can collect all possible
+##     distances between pairs of sonnets in a 154 x 154 matrix:
+         sonnets.dists <- dist(t(sonnets.incMat))
+##     'dist()' wants to compute distances between rows,
+##     which is why we had to transpose 'sonnets.incMat'.
+##     'sonnets.dists' is in principle a matrix, but not quite:
+##     it is a special data structure that stores only one
+##     triangle of the matrix, taking advantage of symmetry:
+##        d(i,j)==d(j,i)
+##     [See 'help(dist)' for details.]
+##     However, the 'dist' structure is easily coerced to a plain matrix:
+         round(as.matrix(sonnets.dists)[1:5,1:5], 1)
+##     These are all pairwise distances between the first 5 sonnets.
+##     Does, e.g., the distance between sonnets 1 and 2 agree with our formula?
+##     Check:
+         i <- 1;  j <- 2   # two sonnets
+         sqrt(sum((sonnets.incMat[,i] - sonnets.incMat[,j])^2))
+         as.matrix(sonnets.dists)[i,j]
+##     Indeed!  [For math folks: These are 'Euclidean' distances.]
+##
+##   . Compare this to the table offered in the first few pages of the
+##     Rand McNally Road Atlas: A matrix that shows all pairwise
+##     distances between cities in the US.  So we just computed a Rand
+##     McNally ditance table for the sonnets!
+##
+##
+## - CLUSTERING BASED ON DISTANCE MATRICES:
+##
+##   . The next step is to use this distance matrix for 'clustering',
+##     i.e., forming groups of sonnets.
+         sonnets.hclust <- hclust(sonnets.dists, method="ave")
+##     We could find out what this 'hclust' data structure looks like,
+##     but we don't need to.  The 'plot()' function knows how to plot it:
+         plot(sonnets.hclust)
+         plot(sonnets.hclust, cex=.6, xlab="Sonnets")
+##     This is not easily examined!  Stretch the plot window as much as you can...
+##
+##   . Better to turn the plot into a PDF file for zooming in Acrobat Reader:
+         pdf("sonnets-clustered.pdf", height=5, width=10)
+         plot(sonnets.hclust, cex=.5, xlab="Sonnets")
+         dev.off()
+##     Open this file in Acrobat Reader or Foxit (whatever your PDF
+##     reader is) and zoom in and look around.  This is a so-called
+##     'hierarchical clustering tree'.
+##
+##   . Interpretation of the tree plot:
+##       Imagine walking from one sonnet to another in the tree:
+##       up-up...-down-down...
+##       If you need to climb high in the tree, the two sonnets
+##       are far from each other.
+##     Now try to make sense of some of the sonnet pairs:
+##       If two sonnets are near in numbering and close in the tree,
+##       then the tree probably reflects something real about the
+##       sonnets.
+##
+## - Some possibilities for future exploration:
+##   . Many people would experiment with subsets of words
+##     to form distances.  For one thing, one might want
+##     to remove non-content words, or the opposite,
+##     only include relational/non-content words for style.
+##   . One may also want to play with the choice of distance:
+##     Would a L1 distance produce more interpretable results
+##     than Euclidean L2 distance?
+##   . Finally, both 'hclust()' and 'cmdscale()' have method choices.
+##     For example, 'cmdscale()' can generate 3-D or 4-D or 5-D maps...
+##     And 'hclust()' has different ways of building hierarchical trees.
+
+
+## - DIMENSION REDUCTION BASED ON DISTANCE MATRICES:
+##
+##   . Here is another method that gets often applied: It tries to
+##     reconstruct a map from the 'RandMcNally distance chart':
+##     multi-dimensional scaling.  It produces two coordinates for
+##     each sonnet which can be thought of as forming a 'map'.
+##     Use the function 'cmdscale':
+         sonnets.mds <- cmdscale(sonnets.dists)
+         plot(sonnets.mds, pch=16)
+         plot(sonnets.mds, type="n")
+         text(sonnets.mds, lab=1:nrow(sonnets.mds))
+##     Again, one would have to start looking into individual sonnets
+##     to check what causes the map to look the way it does.
+##
+##
+## - (DIMENSION REDUCTION)/MAPPING AND CLUSTERING OF GEOGRAPHY:
+##
+##   . While the 'map' of sonnets leaves us wondering and would
+##     require a lot more knowledge about the sonnets to make sense of
+##     both the clustering tree and the map, here is an illustration
+##     to show that 'cmdscale()' can indeed recreate a map if this is
+##     what is underlying the data.  To this end, we download
+##     longitude and latitude data for over 300 metropolitan areas of
+##     the US:
+         metro <- read.csv("http://stat.wharton.upenn.edu/~buja/STAT-470-503/metro-coordinates.csv", as.is=T)
+         str(metro)
+         plot(metro, pch=16)
+##     Now compute a 'RandMcNally table' of all pairwise distances:
+         metro.dists <- dist(metro)
+         round(as.matrix(metro.dists)[1:4, 1:4],1)
+         metro.map <- cmdscale(metro.dists)
+         plot(metro.map, pch=16)
+##     ==> 'cmdscale()' is clearly able to reconstruct a map from distance data.
+##         The map may be flipped or rotated, but it will reflect the true distances.
+##         This example is 'clean': there is little randomness and distortion and the map is
+##         2-D, so there is no 'dimension reduction', just reconstruction of a 2-D map.
+##
+##   . What would a clustering tree look like?
+         plot(hclust(metro.dists, method="single"), cex=.5, xlab="", sub="", main="Metropolitan Areas")
+##     Need a PDF version for zooming:
+         pdf("metro-clust.pdf", width=10, height=5)
+         plot(hclust(metro.dists, method="single"), cex=.2, xlab="", sub="", main="Metropolitan Areas")
+         dev.off()
+##     Open in Adobe Acrobat or Foxit Reader; then zoom and pan around:
+##       zooming:  'ctrl-=' (below '+') and 'ctrl--' (below underscore '_')
+##       panning:  'depress the mouse and drag' for panning, or use arrow keys.
+##     The groups make much sense: Pacific Northwest, California, adjacent Nevada, ...
+##     Keep in mind that horizontal distance in the clustering tree is not relevant;
+##     two adjacent places may be far from each other if one has to climb high
+##     in the tree to join the two places.
+
+
 #================================================================
 
 
+## SUMMARY: STRING SEARCH/SUBSTITUTION/SPLITTING WITH REGULAR EXPRESSIONS
 
+
+## * PRELIMINARIES ABOUT SPECIAL CHARACTERS:
+##
+## - R and many other programming languages use the backslash '\' as a
+##   meta-character in strings in order to denote special characters.
+##   Common examples:
+         "\t";  nchar("\t")   # TAB  (one of the white space characters)
+         "\n";  nchar("\n")   # NEWLINE
+         "\r";  nchar("\r")   # CR (carriage return; used in Linux/MacOS)
+##   The 'nchar()' statements prove that these strings indeed contain
+##   one, not two, characters.
+
+## - One can use these characters in 'grep()' searches:
+         x <- c("What's going on?", "Not much.\n")
+         grepv("\n", x)
+##   In the following example the words in the first string are TAB
+##   separated.  'gsub()' replaces them with single blanks:
+         gsub("\t", " ", c("What's	going	on?", "Not	much.\n"))
+##
+## - Question: How can one put '\' itself in a string?  Answer:
+         "\\";  nchar("\\")
+##
+## - Consequences:
+##   . Wherever a single backslash appears in a string, it is a
+##     meta-character that modifies the next character.
+##   . Wherever a double backslash appears in a string, it is a
+##     single literal backslash.
+
+
+## * PRELIMINARIES ABOUT FORMATTED PRINTING:
+##
+## - Unformatted printing:
+##
+##   We use the function 'print()' implicitly a lot:
+##   Every time we type an expression such as
+         "  abc\n  xyz\n"
+##   we really do this:
+         print("  abc\n  xyz\n")
+##   This is called 'unformatted' printing;
+##   the result is printed as a string value,
+##   showing all the characters.
+##
+## - Formatted printing:
+##
+##   . If "\n" is intended to be printed as moving to a new line,
+##     use 'cat()' instead of 'print()':
+         cat("  abc\n  xyz\n")
+##
+##   . 'cat()' takes vector arguments and prints them as if they
+##     had been pasted together:
+         cat("    -------------------\n   |  Here is my box!  |    \n    -------------------\n")
+         txt <- c("    -------------------\n",
+                  "   |  Here is my box!  |    \n",
+                  "    -------------------\n")
+         cat(txt)
+         cat(txt, sep="")
+##     'cat()' separate elements of a vector by default with one blank " ".
+##     With 'sep=""' we suppress this separation.
+##
+##
+##   . Sonnet 1:
+         print(sonnets.lines[1:15])         # Unformatted string values
+         cat(sonnets.lines[1:15])           # Not what we need.
+         cat(sonnets.lines[1:15], fill=T)   # Breaks lines at line width of the Concole:
+         options()$width                    # Line width in Console
+##     To achieve a visually pleasing result with 'cat()',
+##     we need to paste "\n" to the end of the lines.
+##     This is best done using "\n" as a separator:
+         cat(sonnets.lines[1:15], sep="\n")
+##
+##   . 'cat()' is the way to print readable messages in functions:
+         fun <- function(x) {
+             if(!is.numeric(x)) { cat("fun(): Non-numeric argument!\n"); return() }
+             if(any(x==0))      { cat("fun(): Zero elements!\n");        return() }
+             1/x
+         }
+         fun("abc")
+         fun(c(-2,0,2))
+         fun(c(-2,2))
+
+
+## * REGULAR EXPRESSIONS:
+##
+## - Purpose: Describing string patterns for search, substitution, and
+##   string splitting.
+##
+## - Regular expressions look like strings but some of the characters
+##   have special meanings, so-called 'meta-characters'.
+##
+## - The fundamental concepts are "pattern" and "match", as in:
+         grepv("Jim", c("Cecilia Balducci","jim miller"," Jim Brown"))
+##              ^^^                                       ^^^
+##            pattern                                    match
+##
+##   In the absence of meta-characters (see next), a pattern has a
+##   match if the pattern is a substring of the target string.
+##
+## - The interpretation of strings as regular expressions can be
+##   suppressed if necessary.  Example:
+         grepv("+?$[]*", c("-+?$[]*-","abc+?$[]*","xyz"), fixed=T) # Works: "+?$[]*" = plain string
+         grepv("+?$[]*", c("-+?$[]*-","abc+?$[]*","xyz"))          # Error: invalid reg. expr.
+##   Similarly, 'sub()', 'gsub()', and 'strsplit()' all have an
+##   argument 'fixed=...' which is defaulted to 'FALSE' but can be set
+##   to 'TRUE' to suppress the regular expression mechanism.
+##
+## - META-CHARACTERS with special meanings in regular expressions:
+##
+##       ---------------------------------------
+##      |                                       |
+##      |      . \ | ( ) [ ] { } ^ $ * + ?      |
+##      |                                       |
+##       ---------------------------------------
+##
+##    To use any of these characters in their literal meaning,
+##    i.e., not as meta-characters, you need to preface them
+##    with two backslashes or (if possible) put them in a range:
+         grepv("\\.", c("is.matrix", "ls"))
+         grepv("[.]", c("is.matrix", "ls"))
+##
+## -  CHEAT SHEET for regular expressions:     (incomplete!)
+##
+##       -----------------------------------------------------------
+##      |                                                           |
+##      |  ^     match at beginning of string [unless in a range]   |
+##      |  $     match at end of string                             |
+##      |                                                           |
+##      |  .     matches ANY single character                       |
+##      |          common mistake:  grepv(".",x)  matches anything  |
+##      |          solutions:  grep("\\.",x) or grep("[.]",x)       |
+##      |                                                           |
+##      |  []    defines character ranges:                          |
+##      |          [aA _]     matches 'a' or 'A' or ' ' or '_'      |
+##      |          [a-zA-Z_]  matches any letter and underscore     |
+##      |          [a-z]      matches lower case letters            |
+##      |          [0-9]      matches any digit                     |
+##      |          [^0-9]     matches anything other than digits    |
+##      |          [.]        matches '.'                           |
+##      |          ==> meta-characters are literal in ranges        |
+##      |                                                           |
+##      |  {}    defines multiplier for preceding pattern:          |
+##      |          a{3}         matches 'aaa'                       |
+##      |          a{2,3}       matches 'aa' or 'aaa'               |
+##      |  *       multiplier {0,inf}                               |
+##      |  +       multiplier {1,inf}                               |
+##      |  ?       multiplier {0,1}                                 |
+##      |                                                           |
+##      |  (...) grouping for multipliers and in substitutions:     |
+##      |          grep("We go up and down (and up and down)*[.]",x)|
+##      |          gsub("[(]([0-9.,]+)[)]", "-\\1", x)              |
+##      |          '(1,090.80)'  --->  '-1,090.80'                  |
+##      |  \\n   in replacement string: copies n'th '(...)'         |
+##      |                                                           |
+##      |  |     match left OR right pattern:                       |
+##      |          aa|bb          matches "aa" or "bb"              |
+##      |                                                           |
+##      |  \\<...\\>   '...' is surrounded by whitespace,           |
+##      |              punctuations, beginning/end of string/line   |
+##      |                                                           |
+##       -----------------------------------------------------------
+##
+## - MATCH AT THE BEGINNING OR END: "^..." and "...$"
+         x <- c("Hello, my friend!",  "How is it going?",  "Quite well, thanks.")
+         grepv("^Quite ", x)                       #        ^^^^^ match
+         grepv("[?]$", x)                          #  ^ match
+         grepv("\\?$", x)                          #  ^ match
+##
+## - CHARACTER RANGES are defined by '[' and ']':
+##     Look for patterned words in Shakespeare's sonnets
+         grepv("^b[aeiou]+b$", sonnets.words.unique)   # None
+         grepv("^b[aeiouy]+t$", sonnets.words.unique)
+         cons <- "[bcdfghjklmnpqrstvwxz]"
+         vow  <- "[aeiouy]"
+         pat  <- paste("^", cons, vow, "+", cons, "$", sep="")
+         grepv(pat, sonnets.words.unique)
+         pat  <- paste("^", cons, vow, "{1,2}", cons, "$", sep="")
+         pat
+         mat <- grepv(pat, sonnets.words.unique)
+         mat
+##     How often do these words occur in the sonnets?
+         table.l(unlist(sonnets.words), levels=mat)
+##     [The many other words that do not appear among the 'levels' are simply ignored:
+##      they generate NA values that are thrown away by 'table()'.]
+##
+## - REPETITION QUANTIFIERS:
+         x <- c("%@#$&!", "HeLLLo!", "Hello", "HeLLo!", "Helo!", "Heo!")
+##   + The preceding pattern occurs at least once or more:        '+'
+         grepv("e[lL]+o", x)
+##   + The preceding pattern occurs 0 or more times:              '*'
+         grepv("e[lL]*o", x)
+##   + The preceding pattern occurs 0 or once times but not mroe: '?'
+         grepv("e[lL]?o", x)
+##   + The preceding pattern occurs exactly 'n' times:            '{n}'
+         grepv("e[lL]{2}o", x)
+##   + The preceding pattern occurs between 'n' and 'm' times:    '{n,m}'
+         grepv("e[lL]{1,2}o", x)
+##   + The preceding pattern occurs 'n' or more times:            '{n,}'
+         grepv("e[lL]{2,}o", x)
+##   + The preceding pattern occurs no more than 'n' times:       '{0,n}'
+         grepv("e[lL]{0,2}o", x)
+##
+## - PAREN GROUPING FOR MULTIPLIERS:
+         x <- c("Now go!",
+                "Go! Stop! Go! Stop!",
+                "Go!",
+                "Go! Go! Go! Go!",
+                "Go! Stop! Go! Go!"  )
+         grepv("^Go!( Go!)*$",x)  # Looking for repeats of " Go!" only.
+##
+## - PAREN GROUPING FOR COPYING A PATTERN IN A SUBSTITUTION:
+##     Replace financial statement convention for negative numbers with math convention.
+##     '(...)'  --->  '-...'   where '...' is a number pattern
+         x <- c("980.41","(2,010.00)")
+         gsub("[(]([0-9.,]+)[)]", "-\\1", x)
+##             ^^^          ^^^ literal parens
+##                 ^^^^^^^^ pattern to be copied
+##
+## - CONSECUTIVE CHARACTER RANGES in the lexicographical order can be
+##   formed by listing the first and last, separated by a hyphen:
+##     Looking for 'a' or 'b' or 'c' or 'd':
+         grepv("[a-d]", c("Hello","my","friend","said"))
+##     Looking for any digit:
+         grepv("[0-9]", c("1. Chapter","My","friend","said"))
+##     [Because these ranges depend on the 'locale-dependent' lexicographical ordering
+##      of characters, there exist other symbols to define such ranges, such as
+         x <- c("Abc.", "0-9", "Jim", "H?r mal auf oder es kl?pft", "?ad?nde vas")
+         grepv("^[a-zA-Z ]+$", x)     # English characters and space ' ' only
+         grepv("^[[:alpha:] ]+$", x)  # Locale-independent: has German 'Umlaut' -- '?','?','?'
+         grepv("[[:punct:]]", x)      # Locale-independent punctuations
+##     For more details see:
+         help(regexp)
+##
+## - NEGATION OF RANGES is obtained by placing '^' at the beginning of the bracket:
+##       Looking for any character that is NOT in the lower case alphabet:
+         grepv("[^a-z]", c("1. Chapter","My","friend","said"))
+##                          ^^^^         ^
+##   ==> Note that '^' has two meanings as meta-character:
+##       + At the beginning of a pattern it looks for matches at the
+##         beginning of the target strings.
+##       + At the beginning of a bracket range, it looks for anything
+##         other than what is thereafter listed in the range.
+##
+## - ANY SINGLE character is matched by ".":
+         grepv("a.b", c("aaaaXb","za;bqr","abcxyz"))
+##                          ^^^    ^^^
+##     Common mistake: Looking for literal '.' and writing "."
+##     Example: searching for all 'is.abc' functions
+         apropos("^is.")   # Wrong
+         apropos("^is[.]") # Correct
+##
+
+
+## * FUNCTIONS THAT USE REGULAR EXPRESSIONS:
+##
+## - Text processing functions:
+         grep(),
+         grepl()
+         sub()
+         gsub()
+         strsplit()
+##
+## - Searching for R functions (and data structures):
+         apropos("is[.]")    # all type checking functions that produce TRUE/FALSE
+         apropos("as[.]")    # all type coercion functions
+         ls(pattern="^Student")
+         ls(pat="^Student")  # Named argument needs only be long enough to be unique.
+##
+## - Our own handy functions:
+         grepv     # Grep that returns matched strings
+         greptab   # Grep through names of a tabulation
+##     Here are two missing functions:
+         getpat  <- function(pattern, x, invert=FALSE) { regmatches(x, regexpr(pattern, x),  invert) }
+         ggetpat <- function(pattern, x, invert=FALSE) { regmatches(x, gregexpr(pattern, x), invert) }
+         save.image()     # Make sure you'll have them next time.
+##     They return the pattern-matched substrings:
+         x <- c("Andy, Bert", "Jim, Clara.", "Cindy, Randy", "foobar.")
+         getpat("[A-Z][a-z]*ndy", x)    # Returns the first matched substring (if any) ---> vector
+         ggetpat("[A-Z][a-z]*ndy", x)   # Returns all matched substrings               ---> list
+         ggetpat("[[:punct:] ]", x, invert=T) # Invert the pattern: 'all but punctuations'
+         x <- c("Abc.", "0-9", "Jim", "H?r mal auf oder es kl?pft", "?ad?nde vas")
+         getpat("^[a-zA-Z ]+$", x)     # English characters and space ' '
+         getpat("^[[:alpha:] ]+$", x)  # Locale-independent: has German 'Umlaut' -- '?','?','?'
+         getpat("[[:punct:]]", x)      # Locale-independent punctuations
+##     Two uses of these functions:
+##     . Debugging your regular expressions!
+##       They show exactly what it is that was being matched.
+##     . Extracting useful information from documents,
+##       in particular webpages.
+
+
+## * SCRUBBING AN HTML WEBPAGE -- AND LEARNING SOME HTML ON THE SIDE
+##
+## - EXAMPLE OF A WEBPAGE:
+##     Individual webpages whose content is available in HTML markup
+##     are easily processed (if they use Javascript, it's more complicated).
+##     Load, for example, the instructor's webpage into a string vector:
+         webpage <- readLines("http://stat.wharton.upenn.edu/~buja/")
+         length(webpage)
+         webpage[1:20]
+##     It is in pure and extremely simple HTML format.
+##     [The instructor hand-edits his webpage.  Most people use
+##     web tools to construct fancy webpages.]
+##
+## - PURPOSE OF HTML MARKUP: Directing the appearance of the page
+##     content.  E.g.: what to print bold or italic, where to place a
+##     ruler, a title, a bullet list, an image, an anchor to another
+##     webpage, ...
+
+## - TASK: Remove all HTML markup, leaving pure text behind.
+##
+## - SYNTAX OF HTML MARKUP:
+##     It is all of the form "<...>", except for comments that start
+##     with "<!--" and end with "-->".
+
+## - POTENTIAL DIFFICULTY:
+##     It can be that markup crosses lines, hence we should turn the
+##     webpage into a single giant string:
+         webpage1 <- paste(webpage, collapse="\n")
+##     Here is the full text of the webpage:
+         cat(webpage1)
+##
+## - BUILDING UP A REGEXP TO REMOVE ALL HTML MARKUP:
+##
+##   . We'll build up the regular expression in steps till it catches
+##     exactly HTML markups, using 'ggetpat()' so see what is being
+##     matched.  This way we'll learn some rudiments of HTML markup
+##     along the way.
+##
+##   . Check the appearances of the angles "<" and ">":
+         ggetpat("<", webpage1)
+         ggetpat(">", webpage1)
+##     Ok
+##
+##   . In a next step, let's ask for all the markups
+##     that contain just one character between the angles:
+         ggetpat("<.>", webpage1)
+##     Makes sense.  We learn some simple markups that
+##       <p>   starts a new paragraph
+##       <i>   starts italicized text
+##       <b>   starts bold text
+##
+##   . Now allow multiple characters inbetween "<" and ">":
+         ggetpat("<.*>", webpage1)
+##     Ooops, this didn't go well!  What happened was that
+##     ".*" allows ANY character, including ">", hence the
+##     pattern ".*" matches through to the rest of the string,
+##     (which is all of the webpage).
+##
+##   . So we must replace ".*" with something that prevents matches of ">".
+##     Here is how:  "[^>]"  matches any single character that is not ">".
+##     To match an arbitrary number of them, let's use "+" to ask for
+##     at least one non-">" character (there is no "<>" HTML markup):
+         ggetpat("<[^>]+>", webpage1)
+##     Pretty good, but hard to read.  The problem is that 'print()'
+##     allocates space of equal length for each string, which is
+##     the maximum string lenght.  Use 'cat()' instead, placing
+##     each items on its own line:
+         cat(unlist(ggetpat("<[^>]+>", webpage1)), sep="\n")
+##     [Let's make this a function because we're going to use it again:
+         catn <- function(x) { cat(x, sep="\n") }
+         catn(unlist(ggetpat("<[^>]+>", webpage1)))
+##
+##   . BASIC HTML:
+##     We find, e.g., the markups starting with "</"
+##     which terminate their 'unslashed' siblings:
+##       </b>   ends bold
+##       </i>   ends italicized
+##     Important are the following:
+##       <a ...>  starts an 'anchor', i.e., a clickable piece of text which,
+##                when clicked, will open up a new webpage at the URL specified in '...'.
+##       </a>     ends the anchor's clickable text.
+##     Miscellaneous others:
+##       <ul>       start unnumbered bullet list
+##       <li>       start bullet item
+##       </li>      end bullet item (often missing)
+##       </ul>      end unnumbered bullet list
+##       <hr>       place horizontal ruler (line across the page) here
+##       <br>       line break (i.e., new line, but no extra space, unlike <p>)
+##       <img ...>  place image here
+##       <font ...> change font size
+##       </font>    end font size
+##       <h1>       start header/title (level 1)
+##       </h1>      end header/title (level 1)
+##
+##   . HTML COMMENTS: Three possibilities
+##     1. Leave them including markups;
+##     2. Leave commented text but remove the markups;
+##     3. Wipe out commented text and their markup.
+##     We might just want to go with 1.  Commented text might be
+##     of interest, but we want to know it's commented, so we
+##     need the markup.
+##     All we need to do is avoid "<!":
+         catn(unlist(ggetpat("<[^!>][^>]*>", webpage1)))
+##                      ^^^^^    ^
+##     Note we switched from "+" to "*" because "[^!]" makes sure we
+##     already have at least one character after "<".
+##
+##   . REMOVING HTML MARKUP:
+         webpage1.nomarkup <- gsub("<[^!>][^>]*>", "", webpage1)
+         cat(webpage1.nomarkup)
+##
+##    . Remove blank lines:
+        sel <- !grepl("^[[:blank:]]*$", webpage.nomarkup)
+        webpage.clean <- webpage.nomarkup[sel]
+        webpage.clean
+##
+##    . FINAL NOTE: This exercise would be more exciting if we could
+##       download all Wharton profs' webpages and make comparisons
+##       between them.  Tools for such 'web crawling' do exist.
+##
+## - Another example:  http://x-rates.com/
+##
+##   . Examine this page by hitting 'ctrl-U' in the browser.
+##     A new window should appear with the HTML markup and Javascript code.
+##
+##   . Or you can literally 'Save' it (crtl-S) to a local file
+##     and study its structure in an editor such as 'Notepad' (on MS Windows).
+##     [You will also find a new directory of the same name with images
+##      and formatting files, which you can ignore.]
+##
+##   . As before we read the webpage into a string vector:
+       exch <- readLines("http://x-rates.com/")
+##     Search for something we recognize in the webpage,
+##     e.g., the conversion rate of USD to GBP:
+##     It turns out that the line with this info is very long and that
+##     the relevant info is imbedded in the following markup:
+##        <a href='/graph/?from=USD&amp;to=GBP'>0.64849
+##     So we actually don't want to clean out the markup!
+##     Rather, it helps us search for the info:
+         exch <- readLines("http://x-rates.com/")      # get the webpage
+         exch.info <- grepv("from=USD", exch)[1]       # get the relevant line
+         exch.info
+         exch.vec <- ggetpat("from=[A-Z]{3}|to=[A-Z]{3}|([0-9]+[.][0-9]+)", exch.info)[[1]] # USD->GBP is first
+         exch.vec
+##
+##   . Let's package the information in a matrix:
+       exch.vec3 <- matrix(exch.vec, ncol=3, byrow=T)                 # Reformat the vector as a matrix with 3 columns
+       exch.vec3                                                      # Ok
+       exch.cur <- unique(unlist(ggetpat("[A-Z]{3}", exch.vec)))
+       exch.cur
+       exch.mat <- matrix(1, nrow=length(exch.cur), ncol=length(exch.cur))  # Allocate a 5 x 5 matrix
+       rownames(exch.mat) <- paste("from",exch.cur,sep="=")                 # 'from' currencies in the rows
+       colnames(exch.mat) <- paste("to",  exch.cur,sep="=")                 # 'to'   currencies in the cols
+       for(i in 1:nrow(exch.vec3)) {
+           exch.mat[exch.vec3[i,1], exch.vec3[i,2]] <- as.numeric(exch.vec3[i,3])  # Fill the matrix
+       }
+       exch.mat
+##     Looks correct!
+
+##     Let's write a realtime monitor of the exchange rate USD --> GBP:
+       repeat{
+           exch <- readLines("http://x-rates.com/")      # get the webpage
+           exch.info <- grepv("from=USD", exch)[1]       # get the relevant line
+           info <- ggetpat("from=[A-Z]{3}|to=[A-Z]{3}|([0-9]+[.][0-9]+)", exch.info)[[1]][1:3] # USD->GBP is first
+           time <- as.character(Sys.time())              # real-time
+           cat(time," -- ",info,"\n")                    # print formatted
+           Sys.sleep(1)                                  # snooze for a second
+       }
+##     The exchange rate wobbles on occasion in the 5th decimal...
+##     Abort with 'ESC' in RStudio.
+
+
+## * FURTHER STEPS TOWARD TEXT ANALYSIS:
+##
+## - The package 'stringr'  (a more systematic set of string search tools)
+##
+## - The package 'tm'       (very high-level 'text mining' tool)
+##
+## - The package 'xml'      (for XML, which is a web markup standard from which one can often extract tables)
+##
+## - Reference book on web scraping, with background on HTML, XML, AJAX, JSON, ...:
+##
+##     "Automated Data Collection with R: A Practical Guide to Web Scraping and Text Mining"
+##      by Munzert, Simon
+##
+## - If you need to convert formats such as PDF to plain text,
+##   you might have to buy a commercial product.  Individual
+##   files are easily converted via Acrobat or Foxit Reader,
+##   large numbers of PDF files call for a batch processing tool.
+##
+## - If your text sources are images, you will need an 'OCR' tool
+##   ('optical character recognition').  Such tools naturally tend
+##   to be not 100% reliable.  Again, individual files are easily processed:
+##   Print 'jpg' images to PDF, then use the OCR tool in the PDF reader.
+##   For large numbers of images, one would need a batch processing tool.
+##
+## - Other formats such as MS Word are tricky because MS Word has so
+##   many versions.  Individual files are easily saved from MS Word as
+##   txt files, though.  There may exist commercial tools for batch
+##   processing.
+
+
+#================================================================
+##
+##
+## R PROGRAMMING: OTHER LOOPING CONSTRUCTS -- 'repeat' and 'while'
+##
+##
+## * There are two more looping constructs which one uses when the
+##   number of iterations can not be determined at the beginning.
+##   This occurs in numerical algorithms where stepwise improvement is
+##   carried out to approximate an exact solution to a problem, and it
+##   is not known how many steps will be needed to achieve a certain
+##   precision.
+##
+## * Here is a toy example: How many terms in the divergent series
+##   sum_{k=1,2,...} 1/k are needed exceed a given value 'x'?
+##
+## - Here is a solution with a 'while' loop:
+         x <- 10
+         s <- 0                # initialization of sum
+         k <- 0                # initialization of counter
+         while(s < x) {        # <<<< contains the looping condition
+             k <- k+1          # increment counter
+             s <- s + 1/k      # increase sum
+             if(k %% 1000 == 0) { cat(k," ") }   # (Say something every so often...)
+         }                     # end of the 'while' loop
+         print(k)              # result
+##
+##   Here an alternative with a 'repeat' loop:
+         x <- 10
+         s <- 0                # initialization of sum
+         k <- 0                # initialization of counter
+         repeat{                   # <<<<
+             k <- k+1              # increment counter
+             s <- s + 1/k          # increment sum
+             if(s >= x) { break }  # The way to end a 'repeat' look
+             if(k %% 1000 == 0) { cat(k," ") }   # (Say something every so often...)
+         }
+         print(k)
+##
+##   [Warning: Don't try much higher than 10!  It will not get there in your life time...]
+
+
+##================================================================
+##
+##
+## R PROGRAMMING: CLASSES AND GENERIC FUNCTIONS
+##
+## * R has an object-oriented system of classes and generic functions.
+##   What this means will be explained here
+##
+## - We referred several times to the fact that the 'print()' and
+##   'plot()' functions are 'generic', that is, they know what to
+##   do for many different types of objects or, more precisely,
+##   for objects of many different types of 'class'.
+##
+## - Examples:
+##   . 'plot(')
+         x <- seq(0,4*pi,len=1001)        # n=1001
+         y <- sin(x)
+         xy <- cbind(x,y)
+         plot(y, type="l", col="black")   # one n-vector argument y ==> x=1:length(y)
+         plot(x, y, type="l", col="red")  # two n-vector arguments ...
+         plot(xy, type="l", col="blue")   # a nx2 matrix ==> 1st column = x, 2nd column = y
+         fun <- function(x) { x^2 }
+         plot(fun)                        # a function
+         plot(fun, from=-1, to=+1)        # same with args 'from' and 'to'
+         plot(sonnets.hclust)             # a hierarchical clustering structure
+##     ==> 'plot()' knows what to do for many types of incoming arguments.
+##   . 'print()':
+         print(y)                  # n-vector
+         print(xy)                 # nx2 matrix
+         print(sonnets.hclust)     # hierarchical clustering structure (not very informative)
+##
+## - Trick: These functions look up the result of 'class()' of the
+##   first arguments and then looks up a function called a 'method' that
+##   actually carries out the task of plotting, printing..
+         class(y)
+         class(xy)
+         class(sonnets.hclust)
+##
+## - You can look up what the 'methods' are that 'print()' and
+##   'plot()' actually use, depending on the class:
+         methods(print)
+         methods(plot)
+##   Unfortunately the methods with an asterix are hidden.
+##
+## - To learn the methods for a given class, use 'class=...':
+         methods(class=numeric)
+         methods(class=character)
+         methods(class=logical)
+         methods(class=vector)
+         methods(class=matrix)
+         methods(class=data.frame)
+         methods(class=list)
+         methods(class=table)
+         methods(class=dist)
+         methods(class=hclust)
+##   [These may be all the classes we have ever encountered.]
+##
+## - Here is an example of how you can make up your own class with its
+##   own 'print()', 'plot()' and 'summary()' methods:
+##
+##   Goal: Define a data structure that represents a discrete random
+##   variable.  Recall from Stat 101/111 what a random variable is:
+##
+##    -----------------------------------------------------------
+##   |  A discrete random Variable is a list of possible values  |
+##   |  with probabilities attached to them.                     |
+##    -----------------------------------------------------------
+##
+##   Examples:
+##                                  possible values    probabilities
+##   . Fair coin, head=1, tail=0:   (0,1)              (1/2, 1/2)
+##   . Fair die:                    (1,2,3,4,5,6)      (1/6, 1/6, 1/6, 1/6, 1/6, 1/6)
+##   . A loaded die:                (1,2,3,4,5,6)      (1/7, 1/7, 1/7, 1/7, 1/7, 2/7)
+##   . A 'fair' digital option:     (-1, 99)           (0.99, 0.01)
+##
+##   ==> Let's represent a random variable as a named vector
+##       where the elements are the possible values and
+##       the names are the probabilities.
+##       Let's call the class 'RV' for 'random variable'.
+##
+##   . Here is a function to create a random variable from a vector of
+##     possible values and a vector of probabilities:
+         make.RV <- function(possible.values, probabilities) {
+             x <- possible.values
+             names(x) <- probabilities
+             class(x) <- "RV"
+             x
+         }
+##
+##   . Make instances representing a fair coin, a fair die, and a loaded die, resp.:
+         X <- make.RV(c(1,0), c("1/2","1/2"))   # fair coin
+         X.fd <- make.RV(1:6, rep("1/6",6) )    # fair die
+         X.ld <- make.RV(1:6, c("1/7","1/7","1/7","1/7","1/7","2/7") )    # loaded die
+##
+##   . Note:
+##     + We allowed the probabilities to be given by strings with algebraic operations!
+##     + The 'names' are not required to be unique because their purpose is
+##       NOT to access the possible values by their (probability) names.
+##       The purpose of the names is to be converted to numeric probability values when needed.
+##
+##   . A 'method' for printing random variables:
+##     So far this prints as follows:  Ugly!
+         print(X)
+         print(X.fd)
+         print(X.ld)
+##     Define a function named 'print.RV()' to pretty-print a random variable:
+         print.RV <- function(X) {
+             x <- format(c(X,names(X)))
+             cat("",
+                 "  Possible values:     ", x[1:length(X)], "\n",
+                 "  Their probabilities: ", x[1:length(X) + length(X)],"\n", sep="  ")
+         }
+##     This function is now the 'method' for the 'generic function' 'print()':
+         print(X)
+         print(X.fd)
+         print(X.ld)
+##     'print()' finds that the class of these arguments is 'RV', so it looks
+##     for another function called 'print.RV()' and calls it with the argument.
+##
+##   . A 'method' for plotting random variables:
+##     We need to define a function 'plot.RV()' to serve as 'method' for 'plot():
+##     What we would like to do is plot the probabilities against
+##     the possible values.  But we allowed each probability to be
+##     given in a string that would result in a number if evaluated.
+##     This is no problem for "0.75":
+         as.numeric("0.75")
+##     What about "1/6"?
+         as.numeric("1/6")
+##     Of course this doesn't work.  And of course people want to do such things:
+##     evaluate strings that contain legit R expressions.  Without explaining
+##     the necessary magic further, here is a function that does the job:
+         eval.strings <- function(x) { sapply(x, function(str) { eval(parse(text=str)) } ) }
+##     Examples:
+         eval.strings("1/6")              # This is what we will need.
+         eval.strings("plot(1:10)")       # Any R expression will work...
+         eval.strings(paste("1/",1:10))   # Multiple strings containing R expressions
+##     Now a function that evaluates the probabilities and returns them
+##     as numeric values has become trivial:
+         probs <- function(X) { eval.strings(names(X)) }
+##     Examples:
+         probs(X)
+         probs(X.fd)
+         probs(X.ld)
+##     For plotting a random variable we essentially need to do this:
+         plot(X, probs(X))
+##     We will want to be a little more ambitious, though, and get it right:
+##     We'll create a beautiful 'pin plot' with good margins and labels:
+         plot.RV <- function(X, pch=16, cex=1.2, lwd=2, col="black",
+                            stretch.x=1.2, stretch.y=1.2,
+                            xlab="Possible Values",
+                            ylab="Probabilities",
+                            xlim={ rg <- range(X);  mrg <- mean(rg);  mrg + (rg-mrg)*stretch.x },
+                            ylim=c(0, max(probs(X))*stretch.y),
+                            ...) {
+         x <- as.numeric(X)
+         px <- probs(X)
+         plot(x, px, type="h", lwd=lwd, col=col, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, ...)
+         abline(h=0, col="gray")
+         points(x, px, pch=pch, cex=cex, col=col)
+         }
+##     Try:
+         plot(X,    main="Fair Coin")
+         plot(X.fd, main="Fair Die")
+         plot(X.ld, main="Loaded Die")
+##
+##   . Let's next define functions to compute summaries of  random variables:
+         E <- function(X)  { sum(X * probs(X)) }   # expected value
+         V <- function(X)  { E((X - E(X))^2) }     # variance
+         SD <- function(X) { sqrt(V(X)) }          # standard deviation
+##     Examples:
+         E(X)
+         V(X)
+         SD(X)
+         E(X.fd)  # ...?
+         V(X.fd)
+         SD(X.fd)
+         E(X.ld)  # 3.857...  loaded, yes, by 0.037...
+         V(X.ld)
+         SD(X.ld)
+##
+##   . Write a 'summary()' method that uses these quantities!
+##
+         summary.RV <- function(X) {
+             cat("    Expected value: ", E(X), "    Std.Dev.: ", SD(X),
+                 "    Range: ", min(X),"...", max(X), "\n", sep="")
+         }
+##     Examples:
+         summary(X)
+         summary(X.fd)
+         summary(X.ld)
+##
+##   . Define a function 'P()' to calculate probabilities of events:
+##     Q: What's an 'event'?
+##     A: An event is essentially a subset of the possible values
+##     Q: How do we specify events?
+##     A: With conditions such as
+         X == 1
+         X.fd >= 5
+         X.ld == 1 | X.ld == 4
+##     Q: Now can we calculate the probability of events given by
+##        logical values assigned to the possible values?
+##     A: Note that the logical vectors generated by these conditions
+##        carry the names containing the probabilities!
+             probs(X.fd >= 5)
+##     This is still the list of all probabilities.
+##     So we need to select those that define the event:
+             probs(X.fd >= 5)[X.fd >= 5]
+##     Which is what we need to sum up:
+             sum( probs(X.fd >= 5)[X.fd >= 5] )
+##     Package the idea in a function:
+         P <- function(A) { sum(probs(A)[A]) }
+##     Examples:
+         P(X == 1)
+         P(X.fd >= 5)
+         P(X.ld == 1 | X.ld == 4)
+##
+## - OUTLOOK:
+##
+##   . One can do a lot more, see the instructor's webpage.
+##     For example, one can define new random variables
+##     from sums of independent random variables.
+##     One can then illustrate the central limit theorem
+##     by adding up many identically distributed independent
+##     random variables...
+##     One can also draw random samples from the random variables,
+##     generating 'data'...
+##
+##   . For us this was an exercise in building an interesting
+##     'class' in R and providing it with methods for the
+##     generic functions 'print()', 'plot()', and 'summary()'.
+
+
+
+#================================================================
+##
+##
+## SIMULATION AND STATISTICAL INFERENCE
+##
+##
+## * BACKGROUND:
+##
+## - Probability is the concept that allows us to reason about
+##   randomness and uncertainty.  Contrary to common sense, if things
+##   are random, it does not mean that we can't know anything.
+##   Randomness is always structured, and knowing or at least
+##   estimating this structure underlies all of science, policy making
+##   and business.  The turn to stochastic/probabilistic reasoning is
+##   one of the great achievements of the 20th century that now
+##   pervades all spheres of advanced human life.
+##
+## - Probability is 'limiting relative frequency' or 'limiting
+##   proportion' when the number of independent observations goes to
+##   infinity.  Probability is therefore an idealization, just like
+##   straight lines in geometry, real numbers in calculus, point
+##   masses and point charges in physics.  Powerful reasoning requires
+##   powerful idealizations, and probability is one example.
+##
+##   (The view of probability in this class is 'frequentist'.  An
+##    alternative view of probability is used by the 'Bayesian'
+##    framework where probability is perceived gambling odds or degree
+##    of belief.  For statistical methodology based on the Bayes
+##    paradigm, see Stat 542, a popular PhD level class also taken by
+##    advanced undergrads.)
+##
+## - With data analytics and statistics in mind, we will focus on the
+##   use of probability distributions for 'stochastic simulation',
+##   that is, generating random data.  This has multiple goals:
+##
+##   . Simulation will allows us to generate datasets that are truly
+##     random but whose random structure we understand.  This provides
+##     a powerful way of training our eyes for structured randomness.
+##
+##   . Simulation is at the core of some of the most versatile methods
+##     for statistical inference.  These are: (1) permutation tests,
+##     (2) bootstrap-based confidence intervals.
+##
+##   . You may discover that after having taken at least two
+##     statistics courses you never understood the meaning and purpose
+##     of statistical inference.  True, you know the motions for
+##     calculating a statistical test or a confidence interval, but
+##     what is the real meaning of it?  Here is a quiz question to
+##     make the point: Can you clearly explain the difference between
+##     standard deviation and standard error?
+##
+##
+## * PROBABILITY DISTRIBUTIONS IN R
+##
+##
+## - Probability distributions on number ranges can be given in three ways:
+##   . Probability density functions     ('pdf')   [here 'pdf' is NOT the document format PDF!]
+##   . Cumulative distribution functions ('cdf')
+##   . Quantile functions (the inverse of the cdf)
+##   There is little use for pdf's, but a lot for cdf's and quantile functions.
+##
+##
+## - THE PREMIER EXAMPLE: the Standard normal distribution, N(0,1)
+##     Recall:  If  X ~ N(0,1),  then  E[X] = 0  and  SD[X] = 1.
+##
+##   . pdf: 'dnorm()' -- same as exp(-x^2/2)/sqrt(2*pi)
+         dnorm(0);    exp(-0^2/2)/sqrt(2*pi)
+         dnorm(1);    exp(-1^2/2)/sqrt(2*pi)
+         dnorm(-1)
+         dnorm(c(-1,0,1))  # Surprised?
+         x <- seq(-3,3,len=301);  plot(x, dnorm(x), type="l");  abline(h=0)
+##
+##   . cdf: 'pnorm()'   ( = the integral of 'dnorm()' from -Inf to x)
+##
+##      -----------------------------------------
+##     |  pnorm(x) = P(X < x)  when  X ~ N(0,1)  |
+##      -----------------------------------------
+##
+         pnorm(1.96)                    # P(X < 1.96)
+         pnorm(-1.96)                   # P(X < -1.96)
+         pnorm(1.96) - pnorm(-1.96)     # P(-1.96 < X < -1.96)
+         pnorm(c(-1.96, 1.96))          # c(P(X < -1.96), P(X < 1.96))
+         diff(pnorm(c(-1.96, 1.96)))    # P(-1.96 < X < -1.96)
+         diff(pnorm(c(-1.96, 0, 1.96))) # c(P(-1.96 < X < 0), P(0 < X < 1.96))
+         pnorm(2.56)
+         1 - pnorm(2.56)                # P(X > 2.56)
+         pnorm(2.56, lower=FALSE)       #   same
+##       ~ Where are some of these values used?
+##       ~ Explain why certain values are the same.
+##
+##     Application of the normal cdf:
+##     + When performing statistical tests, the test statistic
+##       is often approximately N(0,1) distributed under the
+##       null hypothesis.  This is generally the case when an
+##       estimate is divided by its standard error.
+##     + If you are in such a situation, and if the observed value
+##       of the test statistic is 3.1, what is its
+##       ~ upper one-sided p-value?
+           pnorm(3.1, lower=F)
+##       ~ two-sided p-value?
+           pnorm(3.1, lower=F) * 2
+##
+##   . quantile function: 'qnorm()' -- the inverse of 'pnorm()'
+##       The argument is a probability >0, <1; the result is the
+##       quantile for that probability:
+##
+##      -----------------------------
+##     |  P(X < qnorm(prob)) = prob  |     or:  pnorm(qnorm(prob)) = prob
+##      -----------------------------
+##
+         qnorm(0.5)                 # What's this called? ...
+         qnorm(c(0.25, 0.50, 0.75)) # What are these called? ...
+         qnorm(seq(0,1,by=0.1))     # What are these called? ...
+         qnorm(0.995)
+##
+##     Application of the normal quantile function:
+##     + You want to form a confidence interval (CI) of the form
+##       [estimate - C * standard error, estimate + C * standard error]
+##       Assuming the estimate is roughly normally distributed,
+##       what multiplier 'C' should you use to achieve a 0.99 CI?
+           ???
+##
+##   . Non-standard normal distributions N(m,s^2):
+##     ~ dnorm(), pnorm() and qnorm() have arguments 'm' and 's'.
+##       'mean' or 'm' for short: mean/expected value/location parameter
+##       'sd' or 's' for short:   standard deviation/dispersion parameter
+##     ~ In principle they are not necessary but convenient
+##       because shifte/scaled normal distributions can be standardized to N(0,1):##
+         pnorm(8, m=2, s=3)
+         pnorm((8 - 2)/3)    # Reduction to standard normal
+##       They are the same:
+##       If   Y ~ N(m,s^2),  then X = (Y-m)/s ~ N(0,1).
+##       Here we had Y=8.
+         qnorm(0.975, m=2, s=3)
+         qnorm(0.975)*3 + 2
+##       They are the same:
+##       If  X ~ N(0,1),  then  Y = X*s+m ~ N(m,s^2)
+##
+##
+## - OTHER CONTINUOUS DISTRIBUTIONS:
+##
+##   . t-distributions: 'df=...' degrees of freedom
+##     ~ Where are t-distributions used?
+##       ...
+##     ~ Compare t- and normal density functions:
+         x <- seq(-3,3,len=301)
+         plot(x, dt(x, df=9), type="l");  lines(x, dnorm(x), col="blue")
+##     ~ p-value of t=2.8, upper one-sided, when df=9:
+         pt(2.8, df=19, lower=F)
+##     ~ p-value of t=2.8, two-sided, when df=9:
+         2*pt(2.8, df=9, lower=F)
+##     ~ quantile used as multiplier of standard error for a 99% CI when df=9:
+         qt(0.995, df=9)
+##       Compare to normal quantile, which means 'df=Inf':
+         qnorm(0.995)
+##       ==> Very small datasets require much wider CIs due to unreliable standard error estimation.
+##
+##   . Gamma distributions:
+         x <- seq(0,10,len=501)
+         plot(x, dgamma(x, shape=0.5, scale=1), type="l", ylim=c(0,1), ylab="Gamma Densities")
+         for(shape in 1:8) {
+             lines(x, dgamma(x, shape=shape, scale=1), type="l")
+         }
+##     The gamma family is for random vaariables where the possible values are strictly positive.
+##     The gamma family contains:
+##     ~ the chi-squared distributions dchisq(...,df) for dgamma(...,shape=df/2,scale=2);
+         lines(x, dchisq(x, df=3), col="red", lwd=8)
+         lines(x, dgamma(x, shape=3/2, scale=2), col="green", lwd=2)   # same
+##     ~ the exponential distribution  dexp(...)   for dgamma(...,shape=1,scale=1).
+         lines(x, dexp(x), col="blue", lwd=8)
+         lines(x, dgamma(x, shape=1, scale=1), col="green", lwd=2)     # same
+##     The associated 'p' and 'q' functions for the gamma, chisq and exp families:
+         pgamma(3, shape=3, scale=1)
+         qgamma(0.5, shape=3, scale=1)   # median of Gamma(3,1)
+##     ~ Chisquare:
+         pchisq(4, df=5)                 # P(X < 4) for X ~ Chisq(5) = Gamma(5/2,2)
+         pgamma(4, shape=5/2, scale=2)   # Same
+         qchisq(0.5, df=5)               # median of Chisq(5) = Gamma(5/2,2)
+         qgamma(0.5, shape=5/2, scale=2) # Same
+##     ~ Exponential:
+         pexp(1)                         # P(X < 1)
+         pgamma(1, 1, 1)                 # Same
+         qexp(0.5)                       # Median of Exp = Gamma(1,1)
+         qgamma(0.5, 1, 1)               # Same
+##
+##
+##   - Finally, here is the "mother"/"father" of all univariate real-valued distributions:
+##              the uniform distribution: dunif(), punif(), qunif()
+         x <- seq(-.2, 1.2, len=1001)
+         plot(x, dunif(x), type="l", lwd=5, ylim=c(-.2, 1.2));  abline(h=0)
+##
+##     . Uniform distributions exist for all intervals, given by 'min' and 'max':
+           punif(2.5, min=2, max=5)
+           punif((2.5-2)/(5-2))         # Same:  Y ~ U(min,max) ==> X = (Y-min)/(max-min) ~ U(0,1)
+           qunif(0.75, min=2, max=5)    # Upper quartile of U(2,4)
+           qunif(0.75)*(5-2) + 2        # Same:  X ~ U(0,1)  ==>  Y = X*(max-min)+min ~ U(min,max)
+##
+##     . Whatever you do with distributions can be reduced to the uniform U(0,1):
+##       If F() is the cdf of a distribution Y and X ~ U(0,1),
+##       then the random variable   F^{-1}(X)  has the cdf F().
+##
+##        --------------------------------------------------------
+##       |  If X ~ U(0,1) and F() is a cdf with an inverse, then  |
+##       |          -1                                            |
+##       |     Y = F  (X)                                         |
+##       |  is a random variable with cdf F().                    |
+##        --------------------------------------------------------
+##
+##       Remember:
+##         p...() implements the cdf:           pnorm(), pt(), pgamma(), pchisq(), pexp(), ...
+##         q...() implements the inverse cdf:   qnorm(), qt(), qgamma(), qchisq(), qexp(), ...
+##
+
+
+#================================================================
+##
+##
+## * SIMULATING PROBABILITY DISTRIBUTIONS WITH PSEUDO-RANDOM NUMBERS
+##
+##
+## - Every distribution family has an associated 'r' function
+##     for generating random numbers from this distribution:
+         rnorm;  rt;  rgamma;  rchisq;  rexp;  runif
+##
+##   . Here are 10 random numbers drawn from the standard normal distribution:
+         rnorm(10)
+##     This generates 10 random draws from the normal distribution N(0,1).
+##
+##   . These numbers are not truly random, but they behave like
+##     truly random for all practical (computational) purposes.
+##     In the 1950-1980s there was a lot of research into 'good'
+##     pseudo-random numbers.  Today we can consider this a
+##     solved problem and simply use implementations of
+##     pseudo-random number generators, trusting we're getting
+##     the latest in most languages.
+##
+## - Remarkably, every time you call this function, you'll get
+##   different results:
+         rnorm(10)
+##   ==> Random number generators are 'funny functions';
+##       they are not functions in the mathematical sense.
+##
+##
+## - WHAT ARE RANDOM NUMBERS GOOD FOR?
+##   ANSWER (1): They show us what 'nice data' would look like.
+##
+##   . Example: Remember 'StudentHeights'?
+         Students <- read.csv("http://stat.wharton.upenn.edu/~buja/STAT-470-503/Students.csv", as.is=T)
+         colnames(Students)
+         range(Students$HEIGHT)
+         br <- seq(52,84,by=2)
+         hist(Students[,"HEIGHT"], col="gray", breaks=br, main="", xlab="Heights")
+##     Is it reasonable to assume the heights are drawn from a normal distribution?
+##     Here is a plot of normal random numbers with the same mean and sd:
+         nrow(Students)
+         n <- 390
+         mean(Students[,"HEIGHT"])
+         m <- 67.75     # Slightly rounded mean
+         sd(Students[,"HEIGHT"])
+         s <- 4         # Slightly rounded sd
+         y <- rnorm(n, m=m, s=s)
+         hist(y, col="gray", breaks=br, main="", xlab="Heights")
+##     Plot side by side, stretch the window so both frames look about square:
+         par(mfrow=c(1,2))
+         hist(Students[,"HEIGHT"], col="gray", breaks=br, xlab="Heights", main="Actual")
+         y <- rnorm(n, m=m, s=s)
+         hist(y, col="gray", breaks=br, xlab="Heights", main="N(67.75,4^2)")
+##
+##   . Do you remember a more powerful check for normality from Stat 102/112?
+##     ==> ...
+##     Here is the R function for it:
+         qqnorm(Students[,"HEIGHT"], pch=16)
+##     Looks normal up to rounding to whole or half inches.
+##     What would truly normal data look like?
+         qqnorm(y, pch=16)
+##     Put them in one figure:
+         par(mfrow=c(1,2))
+         qqnorm(Students[,"HEIGHT"], pch=16, main="Actual")
+         y <- rnorm(n, m=m, s=s)
+         qqnorm(y, pch=16, main="N(67.75,4^2)")
+##     Fix vertical axes and add an ideal diagonal line:
+         ylim <- m+c(-1,1)*3*s
+         qqnorm(Students[,"HEIGHT"], pch=16, ylim=ylim, main="Actual")
+         abline(a=m, b=s)
+         y <- rnorm(n, m=m, s=s)
+         qqnorm(y, pch=16, ylim=ylim, main="N(67.75,4^2)")
+         abline(a=m, b=s)
+##     Would rounding make it look more like the actual data?
+         qqnorm(Students[,"HEIGHT"], pch=16, ylim=ylim);  abline(a=m, b=s)
+         qqnorm(round(y*2)/2, pch=16, ylim=ylim);  abline(a=m, b=s)
+##     Not quite, but closer.  In reality people prefer whole inches over half inches.
+##
+##   . General idea:
+##
+##      ---------------------------------------------------------------------
+##     |  We can use random numbers to check what good data would look like  |
+##     |  if they followed a model.                                          |
+##      ---------------------------------------------------------------------
+##
+##
+## - WHAT ARE RANDOM NUMBERS GOOD FOR?
+##   ANSWER (2): We can learn what the variability of estimates is.
+##
+##   . EXAMPLE: If student heights were distributed like N(67.75,4^2),
+##              then their means would look something like this:
+         y.obs <- Students$HEIGHT
+         y <- rnorm(390, 67.75, 4)
+         mean(y)
+##     Think of 'y' as a potential dataset and mean(y) as its summary.
+##     We now have a way to observe what the natural variability of
+##     the mean is ACROSS DATASETS.
+##     Let's collect a few such means for 1000 datasets:
+         Nsim <- 1000
+         y.means <- sapply(1:Nsim, function(j) { mean(rnorm(390, m=67.75, s=4)) } )
+##                         ^^^^^^                     ^^^^^^^^^^^^^^^^^^^^^^^^
+##                     for 1000 datasets:             dataset of size n=390
+##                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+##                                                    mean of dataset
+##
+##      -----------------------------------------------------------
+##     |  These values reflect the variability of the sample mean  |
+##     |             from dataset to dataset!                      |
+##      -----------------------------------------------------------
+##
+##       PS1: Programming note about the simulation
+##            If you prefer 'for'-loops over 'sapply()',
+##            here is some more leisurely code:
+                y.means <- rep(NA,Nsim)     # Pre-allocate an empty result vector
+                for(isim in 1:Nsim) {                  # Simulate 1000 times
+                    y.sim <- rnorm(390, m=67.75, s=4)  # Simulated vector of length 390
+                    y.means[isim] <- mean(y.sim)       # Store its mean
+                }                                      # Done
+##
+##       PS2: Another programming not about the simulation
+##            Have a careful look at this code:
+                y.means <- sapply(1:Nsim, function(j) { mean(rnorm(390, m=67.75, s=4)) } )
+##            Does the function given to 'sapply()' as its second argument
+##            use the argument 'j' at all?  It doesn't.
+##            It would need it if you wanted to build in a zombie insurance
+##            by printing something every so often to make sure the code
+##            is still running:
+                y.means <- sapply(1:Nsim, function(j) {
+                    mean(rnorm(390, m=67.75, s=4))
+                    if(j%%10000==0) cat(j," ")
+                } ); cat("\n")
+##            However, the code is so simple and the time it takes
+##            short enough that we don't need the periodic printing.
+##            For this case there is a programming shortcut:
+##              'replicate()'
+##            Instead of giving it a ladder, we till it how often to repeat,
+##            and instead of a function with a dummy argument, we give it
+##            an expression:
+                y.means <- replicate(Nsim, mean(rnorm(390, m=67.75, s=4)) )
+##            We'll use this from now on in simple and cheap simulations.
+##
+##     Let's do stats of the simulation:
+##
+##     ~ The mean of the means:
+           mean(y.means)
+##       Are we surprised?  Why not?  Mean of means ...
+##       We assumed the true mean to be 67.75 by using rnorm(...,m=67.75,...).
+##       The mean of means is really the mean of 1000*390=390,000 observations,
+##       so it will be very close to 67.75.
+##
+##     ~ Now here is the truly interesting quantity: the dispersion of the means!
+           sd(y.means)       # (1)
+##       Do we know another way to estimate whatever
+##       sd(y.means) is estimating?  Yes, we do:
+           sd(y.obs)/sqrt(390)   # (2)
+##       This is the standard error estimate of the mean as you were
+##       taught in Stat 101 or 111.
+##       The values (1) and (2) are close, so apparently the formula
+##            sd(y)/sqrt(length(y))
+##       gives a good estimate of the dispersion of the mean.
+##       We assumed that the true standard deviation of the heights is 4 inches.
+##
+##      -------------------------------------------------------------
+##     |   Standard Error  :=  Standard Deviation of an Estimate     |
+##     |                       as it varies from dataset to dataset  |
+##      -------------------------------------------------------------
+##
+##
+## - WHAT ARE RANDOM NUMBERS GOOD FOR?
+##   ANSWER (3): We can use simulations to perform statistical tests
+##               and form confidence intervals
+##
+##   . This is an extension of the previous answer because once
+##     we understand standard errors, we can use them to form
+##     ~ retention intervals for tests and
+##     ~ confidence intervals.
+##     The standard error of the mean allows us to judge whether specific
+##     assumptions about the TRUE MEAN are compatible with the data.
+##
+##   . PRELIMINARIES: Recall what the 'TRUE MEAN' is: It's the mean if
+##     we had a dataset of infinite size.  'Having a dataset of
+##     infinite size' is a metaphorical expression for knowing the
+##     true distribution, justified by the law of large numbers.
+##     Similarly there is a TRUE STANDARD DEVIATION.
+##     The arguments 'm=67.75' and 's=4' to 'rnorm()' are
+##     ASSUMED TRUE values for the mean and standard deviation:
+         rnorm(10, m=67.75, s=4)
+##     [What we did above is we estimated these values from the data
+##      and treated them as if they were TRUE, which they aren't.
+##      Thus we committed a hack!]
+##
+##     What's the use of talking about a 'true mean'?  We never have
+##     an infinite dataset, and we never know the 'true mean'!
+##     HOWEVER: People make assumptions about the truth all the time!
+##     'Truth talk' is always about the whole reality out there,
+##     not about any particular observed data.
+##
+##   . THE ROLE OF DATA: We use data to check whether 'truth talk'
+##     is compatible with observations.  While specific assertions
+##     about the reality as a whole can never be proven based on data,
+##     they can often be 'disproven', or at least rejected with a
+##     high degree of confidence.
+##
+##   . An exercise: If someone says the true mean of student heights
+##     is really 67 inches, is this compatible with the data?
+##
+##     Preliminaries: The relevant quantities are the following.
+         y.obs <- Students$HEIGHT
+         n <- length(y.obs)
+         m.obs <- mean(y.obs)
+         s.obs <- sd(y.obs)
+##     Pretty printed reminders:
+         data.frame(n=n, m.obs=m.obs, s.obs=s.obs)
+##     The question is whether a true mean of 67 is compatible with
+##     data that produce these quantities: mean~67.75, sd~4 and n=390.
+##
+##   . REMEDIAL STAT 101/111: Testing a null hypothesis about the true mean
+##
+##     Steps:
+##
+##       1) State the null hypothesis 'H0: true mean = 67'
+              m.H0 <- 67
+##
+##       2) Estimate the standard error of the mean by
+              SE <- s.obs/sqrt(n)
+##
+##       3) Decide on a Type I error such as
+              alpha <- 0.05
+##          [This is the 'false rejection rate' we permit ourselves;
+##           1-alpha = 0.95 is the 'confidence level'.]
+##
+##       4) Calculate a multiplier for the standard error
+##          using the t-distribution with degrees of freedom n-1.
+              K <- qt(1-alpha/2, df=n-1);  K   # Roughly 2
+##          ['alpha/2' is for 2-sided procedures.]
+##
+##       5) Calculate either
+##          ~ a retention interval (RI) around the assumed true mean, or
+##          ~ a confidence interval (CI) around the observed mean.
+              RI <- m.H0 + K*SE*c(-1,1);  RI    # Calculate both
+              CI <- m.obs  + K*SE*c(-1,1);  CI  # for illustration.
+##
+##       6) Retain the null hypothesis if
+##          ~ the observed mean is in the RI,
+##            or, equivalently,
+##          ~ the true mean under H0 is in the CI.
+              is.in.interval <- function(value, interval) { interval[1] <= value & value <= interval[2] }
+              is.in.interval(m.obs, RI)
+              is.in.interval(m.H0, CI)
+##          The answer is 'FALSE', hence H0 is rejected at level alpha=0.05.
+##          ==> 67 inches is not compatible with the data at level alpha=0.05.
+##
+##          Interpretations of the intervals:
+##          ~ The RI contains the observed means that would be compatible with H0.
+##          ~ The CI contains the true means that would be retained if hypothesized.
+##
+##       7) To measure just how incompatible the present H0 is with
+##          the observed data, calculate the p-value:
+##          This is the probability of a value of the test statistic
+##          more extreme than the one we observed if H0 were true.
+              pvalue.2sided.t <- function(t, df) { 2 * pt(abs(t), df=df, lower=F) }
+              pvalue.2sided.t((m.obs-m.H0)/SE, n-1)
+##            [1] 0.0002064446
+##          ==> Only ~2 in 10,000 times does the test statistic exceed
+##              the observed value if H0 is true.
+##          ==> Strong evidence against H0 at alpha = 0.05, 0.01, even 0.001.
+##
+##
+##   . SIMULATION-BASED TESTING: Here is finally Answer 3 for the
+##     question of what the uses are of simulations based on random
+##     numbers.  We proceed in steps to reconstruct the Stat 101/111
+##     routine.  It might also illuminate what the meaning of that
+##     routine is.
+##
+##     0) Assume we knew nothing about t-tests and t-distributions,
+##        but we knew how to simulate data from normal distributions.
+##        How would we go about testing 'H0: true mean = 67'?
+##
+##     1) First we need to discover a suitable test statistic.
+##        The observed mean is not suitable.  Its distribution depends
+##        on both the true mean and the true standard deviation.
+##        We can easily deal with the true mean by subtracting it.
+##        It is given by the null hypothesis H0:
+            mean(y.obs) - m.H0   # (*)
+##        This measures the distance between observed and hypothesized
+##        means, hence is a good measure for compatibility between
+##        data and H0.  A nice property is that the distribution of (*)
+##        does no longer depend on the true mean 'm.H0':
+##        The true mean of (*) is zero if H0 is true.
+##
+##     2) Second, we still have a dependence of the distribution of (*)
+##        on the true standard deviation 's.true'.  From Stat 101/111
+##        you might know that the standard deviation of (*) is
+##                  s.true/sqrt(n).
+##        We are not interested in 's.true'; it is a so-called
+##        'nuisance parameter' in the context of 'H0: true mean = 67'.
+##        How can we get rid of the dependence of the distribution
+##        of (*) on s.true?  Here is an idea:
+##        Divide (*) by an estimate of dispersion:
+            (mean(y.obs) - m.H0) / sd(y.obs)  # (**)
+##        The idea is that if the true standard deviation of the data
+##        is doubling (e.g.), then so are the numerator AND denominator
+##        of (**).  Hence the distribution of (**) does not change if
+##        the true standard deviation changes.  (**) is a so-called
+##        'pivotal quantity' with regard to 's.true'.
+##
+##        --------------------------------------------------------------
+##       |                                                              |
+##       |  Nuisance parameter  =  parameter NOT of interest            |
+##       |                                                              |
+##       |  Pivotal quantity = random quantity whose DISTRIBUTION does  |
+##       |                     NOT depend on nuisance parameters; i.e., |
+##       |                     its distribution only depends on the     |
+##       |                     parameters of interest                   |
+##       |                                                              |
+##        --------------------------------------------------------------
+##
+##        Which parameter is of interest depends on the problem.
+##        Currently the parameter of interest is the true mean and the
+##        nuisance parameter is the true standard devation.
+##        (Below we'll reverse the roles.)
+##
+##        The only aesthetic criticism of (**) is that it creates small
+##        numbers, the smaller the larger 'n'.  Why?  Because the
+##        standard deviation of the numerator keeps shrinking like
+##        's.true/sqrt(n)', whereas the denominator approaches 's.true'.
+##        The solution is to multiply (**) by 'sqrt(n)' or, equivalently,
+##        divide the denominator by 'sqrt(n)':
+##            (mean(y.obs) - m.H0) / sd(y.obs) * sqrt(n)
+##          = (mean(y.obs) - m.H0) / (sd(y.obs) / sqrt(n))
+##          = (mean(y.obs) - m.H0) / SE
+##          = t
+##        So we re-discovered the t-ratio as a suitable test statistic!
+##        It is pivotal wrt 's.true'.  This is what we will evaluate
+##        in our simulation.
+##        The t-statistic has an intuitive meaning:  It is really a change
+##        of units of 'mean(y.obs)', the center of the scale being 0
+##        (corresponding to 'm.H0' on the raw scale), and the unit being
+##        one standard error.  So:
+##
+##         --------------------------------------------------------------------------------
+##        |  t-ratio = answer to the question                                              |
+##        |            'How many standard errors is the observed mean from the true mean?' |
+##         --------------------------------------------------------------------------------
+##
+##
+##     3) Simulation of t-ratios under H0:
+            Nsim <- 100000
+            t.null <- replicate(Nsim, {
+                y <- rnorm(n, m=m.H0, s=4)              # 's=4' is irrelevant!!
+                t <- (mean(y) - m.H0) / (sd(y)/sqrt(n))
+                t } )
+##
+##     4) SIMULATION-BASED RETENTION INTERVALS AND P-VALUES:
+##        Observed t-ratio:
+            t.obs <- (mean(y.obs) - m.H0) / (sd(y.obs)/sqrt(n));  t.obs
+##        RI for the t-ratio:
+            RI.sim <- quantile(t.null, c(0.025, 0.975));  RI.sim
+##        We know that the interval should be symmetric, so let's
+##        symmetrize it: Average the magnitudes.
+            RI.sim <- mean(abs(RI.sim)) * c(-1,+1);  RI.sim
+##        Test:
+            is.in.interval(t.obs, RI.sim)  # FALSE ==> Rejection of H0
+##        p-value:
+            pval.sim <- mean(abs(t.null) >= abs(t.obs));  pval.sim  #
+##                               ^^^^^^         ^^^^^
+##                   100,000 null values >= the observed value
+##
+##          [PROGRAMMING NOTE 1:  Recall that 'mean()' of a logical vector
+##           produces the proportion of TRUE in the vector.
+##           Reason: Logicals are coerced to 1/0 ~ TRUE/FALSE.]
+##
+##          [PROGRAMMING NOTE 2:  Simulation results vary somewhat between runs.
+##           The larger 'Nsim', the less they will vary.
+##           Let's make a comparison of 'RI.sim': What is your value of
+                RI.sim[2]         #]
+##
+##        'pval.sim' is the estimated proportion of times that a null value
+##        exceeds the observed value in magnitude, i.e., this is the
+##        p-value estimated by simulation.
+##
+##     5) We can look at the simulation results more intuitively with a plot:
+            hist(t.null, col="gray", xlim=c(-5,+5))  # t-ratios if H0 were true
+            abline(v=t.obs, col="red", lwd=4)        # Observed t-ratio
+            text(x=c(median(t.null), t.obs), y=c(0,0), adj=c(.5,-10),
+                 lab=c("Likely under H0","Observed"))
+##        ==> The observed t-ratio (corresponding to m.obs = 67.75) is
+##            extreme wrt the histogram centered around 'm.H0 = 67'.
+##        ==> H0 is not compatible with the data.
+##
+#---------------------------------------------------------------- end of lecture 24
+##
+##   . UNDER THE HOOD: Try to understand the following points.
+##     In the above simulation the critical lines of code were:
+##              y <- rnorm(n, m=m.H0, s=4)
+##              t <- (mean(y) - m.H0) / (sd(y)/sqrt(n))
+##     Observations:
+##     ~ 's=4' is totally irrelevant in the simulation
+##       because 't' is pivotal for 's'.
+##     ~ We generated normal data centered at 'm=m.H0',
+##       but in forming 't' we subtracted 'm.H0'.
+##       Thus we might as well have used 'm=0' and not subtract
+##       anything in 't'.
+##     ~ 'sd(y)' is independent of the choice of 'm=m.H0'.
+##       (You could say 'sd(y)' is pivotal wrt the true mean.)
+##
+##     ==> We can abbreviate the simulation as follows:
+           Nsim <- 100000
+           t.null <- replicate(Nsim, {
+               y <- rnorm(n)              # standard normal: 'm=0, s=1'
+               t <- mean(y) / (sd(y)/sqrt(n))
+               t } )
+##     This simulation is independent of the values of
+##     the true mean (assumed to be 'm.H0') and of the
+##     true standard deviation.
+
+##     It turns out we simulated the t-distribution instead of
+##     using its known analytical form as implemented by 'qt()':
+##     When we formed the simulation-based RI
+           quantile(t.null, c(0.025, 0.975))
+##     we really approximated the following more exact answer:
+           qt(c(0.025, 0.975), df=n-1)
+##     but we pretended not to know the t-distribution.
+##     Simulations always produce approximate answers
+##     (the larger 'Nsim', the more precise the results),
+##     but they allow us to do statistical inference even
+##     if we don't have analytical answers.
+##
+##
+##   . INFERENCE FOR THE TRUE STANDARD DEVIATION:
+##     Someone asserts that the true standard deviation of the
+##     heights is 4.5 inches.  Is this compatible with the data?
+##     This question asks for a RI for the true standard deviation,
+##     not the mean.
+##
+##     Do we know how to do this?  Do we have a formula?  We don't.
+##     ==> Simulation to the rescue.
+##     We proceed again in steps, devising a suitable test statistic.
+##
+##     1) First, let's state the null hypothesis: 'H0: s=4.5'
+            s.H0 <- 4.5
+##
+##     2) Test statistic: What about 'sd(y) - s.H0'?
+##        This seems to work: It is pivotal with regard to the
+##        nuisance parameter, which is the true mean 'm.true'.
+##        [In Stat 101 the instructor used to dwell on facts such as:
+##           sd(y+c) = sd(y)
+##         This property implies that the true mean is pivotal for
+##         'sd(y)' because it shows that 'sd(y)' is immune to shifting
+##         the data around.]
+##        Because 'sd(y)' is a ratio-scale quantity (it is > 0 for
+##        non-constant data), one prefers the ratio of sd(y) and s.H0:
+            s.teststat.obs <- sd(y.obs)/s.H0;  s.teststat.obs
+##        Thus large deviations from 1 will indicate that the data
+##        are incompatible with 'H0: s.true=5'.
+##
+##     3) Simulation:
+            s.teststat.null <- replicate(10000, {
+                y <- rnorm(n,s=s.H0)        # null data vector of length n
+                s.teststat <- sd(y) / s.H0
+                s.teststat } )
+##        PROGRAMMING NOTE:
+##        Observe that we simulated 's=s.H0' but then divided by 's.H0'.
+##        ==> We might as well choose 's=1' (the default) and not divide.
+##        Let's compress the code to a one-liner:
+            s.teststat.null <- replicate(10000, { sd(rnorm(n)) } )
+##        Even though this is a programming observation,
+##        it explains why one prefers 'sd(y)/s.H0' over 'sd(y)-s.H0':
+##        The ratio has a distribution that is independent of 's.H0',
+##        whereas the distribution of the difference is dependent on 's.H0'.
+##
+##     4) RI and test result:
+            RI <- quantile(s.teststat.null, c(0.025, 0.975));  RI
+            is.in.interval(s.teststat.obs, RI)    # FALSE
+##        ==> 'H0: s=5' is not compatible with the data.
+##
+##     5) P-value: This requires some care because of the asymmetry
+##        in the lower and upper tail of the distribution.
+##        The test statistic is bounded below by zero
+##        but unbounded above.  Also, the null distribution
+##        is centered at 1, not 0.
+##        The simplest solution in such situations is to calculate
+##        upper and lower exceedance rates separately, take the
+##        smaller of the two rates, and double it for a 2-sided procedure:
+            mean(s.teststat.null <= s.teststat.obs)  # lower exceedance rate
+            mean(s.teststat.null >= s.teststat.obs)  # upper exceedance rate
+##        Hence the proper p-value is as follows, using a helper function:
+            pval.2sided <- function(obs, null) {
+                2*min(mean(null <= obs), mean(null >= obs)) }
+##        This function is general purpose!  You can use it in any
+##        situation where you simulated a null distribution.
+##        Here is our simuation-based p-value for 'H0: s=4.5':
+            pval.sim <- pval.2sided(s.teststat.obs, s.teststat.null)
+            pval.sim
+##        Again, this may differ somewhat between simulations.
+##
+##     6) And again we take a more intuitive look at the null distribution:
+            hist(s.teststat.null, col="gray")     # s-ratios if H0 were true
+            abline(v=s.teststat.obs, col="red", lwd=4)     # Observed s-ratio
+            text(x=c(median(s.teststat.null), s.teststat.obs), y=c(0,0), adj=c(.5,-10),
+                 lab=c("Likely under H0","Observed"))
+##
+##     7) PS: Is there really no analytical test for a very basic null
+##            hypothesis about the true standard deviation?
+##            Actually, there is...  It's a chi-squared test:
+##            It turns out that under H0 the statistic
+##                        (n-1) * (sd(y)/s.H0)^2
+##            has a 'chisq' distribution with 'n-1' degrees of freedom.
+##            So in a way we reconstructed this test not knowing about it.
+##            Using the 'chisq' distribution and mapping it to our scale of
+##            standard deviations, we have to divide the 'chisq' quantiles
+##            by n-1 and take the root to obtain a more exact RI:
+                sqrt(qchisq(c(0.025, 0.975), df=n-1) / (n-1))
+##            Our RI was
+                RI
+##            which is close.
