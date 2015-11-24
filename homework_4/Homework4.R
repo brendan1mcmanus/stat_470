@@ -238,7 +238,7 @@ geneC <- gene[sel, 1:9]
       Instr.: Geneticists determined that the following 'effectType's are 'likely gene-disrupting',
       meaning that the gene containing the mutation at this location has most likely been disabled:
 
-        'splice-site','frame-shift','nonsense','noStart','noEnd','no-frame-shift-newStop'
+          'splice-site','frame-shift','nonsense','noStart','noEnd','no-frame-shift-newStop'
 
       Write a regular expression for this purpose, and note that 'frame-shift' is a
       substring of 'no-frame-shift-newStop', so one needs to be careful to avoid a
@@ -250,7 +250,14 @@ geneC$Chrom <- sapply(strsplit(geneC$location, split=":"), "[", 1)
 geneC$Loc <- sapply(strsplit(geneC$location, split=":"), "[", 2)
 geneC$prob <- substring(geneC$inChild, 0, 1) == "p"
 geneC$male <- substring(geneC$inChild, 2, 2) == "M"
-geneC$LGD <- grepl("splice-site|frame-shift|nonsense|noStart|noEnd|no-frame-shift-newStop", geneC$effectType)
+geneC$LGD <- with(geneC, effectType == "splice-site" | 
+                      effectType == "frame-shift" |
+                      effectType == "nonsense" |
+                      effectType == "noStart" |
+                      effectType == "noEnd" |
+                      effectType == "no-frame-shift-newStop"
+                    )
+geneC$LGD <- grepl("^splice-site$|^frame-shift$|^nonsense$|^noStart$|^noEnd$|^no-frame-shift-newStop$", geneC$effectType)
 ----------------------------------------------------------------
 
 
@@ -269,7 +276,7 @@ Probands have more mutations overall.
 with(geneC[geneC$LGD == TRUE,], table(prob))
 prob
 FALSE  TRUE 
-211   433 
+182   386 
 Probands restricted to cases with LGD mutations have more mutations overall.
 ----------------------------------------------------------------
 
